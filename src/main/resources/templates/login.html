@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head lang="en">
+    <title>Login</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <div class="jumbotron">
+        <div>
+            <!--            <p th:if="${loginError}" class="error">Wrong user or password</p>-->
+            <form th:action="@{/login}" method="post">
+                <!--/*@thymesVar id="param" type=""*/-->
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger">
+                        Invalid username and password.
+                    </div>
+                </div>
+                <div th:if="${param.logout}">
+                    <div class="alert alert-info">
+                        You have been logged out.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Login:</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="username" id="username" class="form-control input-lg"
+                               placeholder="Login" required="true" autofocus="true"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Password:</label>
+                    <div class="col-sm-10">
+                        <input type="password" name="password" id="password" class="form-control input-lg"
+                               placeholder="Password" required="true"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn btn-success">Sign In</button>
+                </div>
+            </form>
+            <div>
+            <a href="#" th:href="@{/registration}" sec:authorize="isAnonymous()">Sigh up</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

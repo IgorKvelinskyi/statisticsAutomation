@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title>Користувачі</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <div class="jumbotron">
+        <div th:if="${not #lists.isEmpty(listAllUsers)}">
+            <h2>Користувачі</h2>
+            <table class="table table-striped">
+                <tr>
+                    <th>№ П/П</th>
+                    <th>Логін</th>
+<!--                    <th>Password</th>-->
+                    <th>Role</th>
+                    <th>Статус</th>
+                    <th>Редагувати</th>
+                    <th>Змінити статус</th>
+                </tr>
+                <tr th:each="user : ${listAllUsers}">
+                    <!--/*@thymesVar id="id" type="java.lang.Long"*/-->
+                    <td th:text="${user.id}">User id</td>
+                    <!--/*@thymesVar id="username" type="java.lang.String"*/-->
+                    <td th:text="${user.username}">User login</td>
+<!--                    <td th:text="${user.password}">User password</td>-->
+                    <td th:text="${user.roles}">Role</td>
+                    <td th:text="${user.active}">Status</td>
+                    <td><a th:href="${ '/admin/user/edit/' + user.id}">Edit</a></td>
+                    <td><a th:href="${'/admin/user/onOff/' + user.id}">Активувати(Деактивувати)</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
