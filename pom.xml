@@ -99,13 +99,13 @@
             <layout>default</layout>
         </repository>
     </distributionManagement>-->
-    <distributionManagement>
+    <!--<distributionManagement>
         <repository>
             <uniqueVersion>false</uniqueVersion>
             <id>corp1</id>
             <name>Corporate Repository</name>
-            <url>http://localhost:8089/</url>
+            <url>https://github.com/IgorKvelinskyi/statisticsAutomation</url>
             <layout>default</layout>
         </repository>
-    </distributionManagement>
+    </distributionManagement>-->
 </project>

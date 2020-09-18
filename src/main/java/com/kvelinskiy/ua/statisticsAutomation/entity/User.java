@@ -1,5 +1,6 @@
 package com.kvelinskiy.ua.statisticsAutomation.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String username;
+    @JsonIgnore
     private String password;
     private boolean active;
 

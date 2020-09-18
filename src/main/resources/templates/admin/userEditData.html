@@ -13,7 +13,8 @@
     <div class="jumbotron">
         <h2 th:inline="text">Користувач : [[${user.username}]]</h2>
         <div>
-            <form class="form-horizontal" th:object="${user}" th:action="@{/admin/userUpdateData}">
+            <form class="form-horizontal" th:object="${user}" th:action="@{/admin/userUpdateData}" method="post">
+                <!--                <input type="hidden" th:field="*{id}"/>-->
                 <!--                Id-->
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Id:</label>
@@ -35,24 +36,25 @@
                         <input type="text" class="form-control" th:field="*{password}"/>
                     </div>
                 </div>
-                <!--                IsActive-->
-                <!--<div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <label class="col-sm-2 control-label">Is Active:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" th:readonly="${user.enabled}" th:field="*{enabled}"/>
-                    </div>
-                </div>-->
                 <!--                Role-->
                 <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <label class="col-sm-2 control-label">Role:</label>
+                    <label class="col-sm-2 control-label">Roles:</label>
                     <div class="col-sm-10">
                         <ul class="nav navbar-nav">
-                            <li><input type="checkbox" name="ROLE_ADMIN" th:checked="${false}" th:value="*{roles}"/></li>
-                            <li><label class="col-sm-2 control-label">ROLE_ADMIN</label></li>
-                            <li><input type="checkbox" name="ROLE_USER" th:checked="${false}" th:value="*{roles}"/></li>
-                            <li><label class="col-sm-2 control-label">ROLE_USER</label></li>
+                            <li th:each="roleUser : ${userRoles}">
+                                <div class="checkbox-inline">
+                                    <input type="checkbox" th:checked="${roleUser.getName()}" th:field="*{roles}"
+                                           th:value="${roleUser.getName()}"/>
+                                    <label th:for="${#ids.prev('roles')}" th:text="${roleUser.getName()}"></label>
+                                </div>
+                            </li>
                         </ul>
-                        <input type="text" class="form-control" th:readonly="*{roles}" th:field="*{roles}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">List roles:</label>
+                    <div class="col-sm-10">
+                        <label th:text="*{roles}"></label>
                     </div>
                 </div>
                 <div class="row">
