@@ -21,4 +21,13 @@ public class ReportingWeekATO {
     private List<OwiATO> owiATOSet;
     private Date dateStart;
     private Date dateEnd;
+
+    @Override
+    public String toString() {
+        return "ReportingWeekATO{" +
+                "id=" + id +
+                ", dateStart=" + dateStart +
+                ", dateEnd=" + dateEnd +
+                '}';
+    }
 }

@@ -93,14 +93,12 @@ public class UserController {
         ModelAndView mod = new ModelAndView();
         ReportingWeekATO reportingWeekATO = reportingWeekATORepository
                 .findById(idReportingWeek).orElseThrow(EntityNotFoundException::new);
-        if (reportingWeekATO.getOwiATOSet() == null) {
+        if (reportingWeekATO.getOwiATOSet() == null || reportingWeekATO.getOwiATOSet().size() == 0) {
             SetOwiATO setOwiATO = new SetOwiATO();
             reportingWeekATO.setOwiATOSet(setOwiATO.outEmptyTableOwiATO(reportingWeekATO));
             reportingWeekATORepository.save(reportingWeekATO);
         }
-        SetOwiATO setOwiATO = new SetOwiATO();
-        reportingWeekATO.setOwiATOSet(setOwiATO.outEmptyTableOwiATO(reportingWeekATO));
-        reportingWeekATORepository.save(reportingWeekATO);
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
         mod.setViewName("user/atoInfo");
         return mod;
     }
