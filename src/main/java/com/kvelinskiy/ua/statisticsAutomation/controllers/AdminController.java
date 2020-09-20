@@ -83,27 +83,6 @@ public class AdminController {
         return "admin/userEditData";
     }
 
-    @RequestMapping(value = "/setMessage")
-    public ModelAndView setMessage() {
-        ModelAndView modelAndView = new ModelAndView();
-        //log.info("class LoginController - IndexController(/index) has started !");
-        modelAndView.setViewName("admin/setMessage");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/message/add", method = RequestMethod.GET)
-    public ModelAndView doAddMessage(@RequestParam("text") String text) {
-        ModelAndView modelAndView = new ModelAndView();
-        //log.info("class LoginController - IndexController(/index) has started !");
-        Message newMessage = new Message();
-        newMessage.setText(text);
-        messageRepository.save(newMessage);
-        Iterable<Message> listMessage = messageRepository.findAll();
-        modelAndView.addObject("listMessage", listMessage);
-        modelAndView.setViewName("user/getMessage");
-        return modelAndView;
-    }
-
     private List<UserRole> setUserRolesForUser(User user) {
         List<UserRole> userRoles = Arrays.asList(
                 new UserRole(Role.ROLE_ADMIN, false),

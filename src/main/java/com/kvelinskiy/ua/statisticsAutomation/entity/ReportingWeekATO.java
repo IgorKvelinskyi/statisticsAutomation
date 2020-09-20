@@ -1,0 +1,24 @@
+package com.kvelinskiy.ua.statisticsAutomation.entity;
+
+import lombok.Data;
+
+import javax.persistence.*;
+import java.sql.Date;
+import java.util.List;
+
+/**
+ * @author Igor Kvelinskyi (igorkvjava@gmail.com)
+ */
+@Entity
+@Data
+@Table(name = "rw_ato")
+public class ReportingWeekATO {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="rw_ato_id")
+    private long id;
+    @OneToMany(mappedBy = "reportingWeekId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OwiATO> owiATOSet;
+    private Date dateStart;
+    private Date dateEnd;
+}

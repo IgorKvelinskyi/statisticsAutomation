@@ -4,8 +4,6 @@ import com.kvelinskiy.ua.statisticsAutomation.entity.User;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.Optional;
-
 /**
  * @author Igor Kvelinskyi (igorkvjava@gmail.com)
  */

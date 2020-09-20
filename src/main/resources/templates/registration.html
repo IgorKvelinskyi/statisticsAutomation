@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
-
     <title>Registration</title>
-
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
 <body>
 <div class="container">
-    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
     <div class="jumbotron">
         <h3 th:inline="text" th:style="'text-align: center'" >Повідомлення : [[${msg}]]</h3>
         <h2>Реєстрація :</h2>
@@ -37,6 +35,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>
