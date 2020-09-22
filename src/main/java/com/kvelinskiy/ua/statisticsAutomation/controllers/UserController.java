@@ -3,6 +3,7 @@ package com.kvelinskiy.ua.statisticsAutomation.controllers;
 import com.kvelinskiy.ua.statisticsAutomation.entity.Message;
 import com.kvelinskiy.ua.statisticsAutomation.entity.ReportingWeekATO;
 import com.kvelinskiy.ua.statisticsAutomation.entity.User;
+import com.kvelinskiy.ua.statisticsAutomation.helper.HeaderTableATO;
 import com.kvelinskiy.ua.statisticsAutomation.helper.SetOwiATO;
 import com.kvelinskiy.ua.statisticsAutomation.repository.MessageRepository;
 import com.kvelinskiy.ua.statisticsAutomation.repository.OwiATORepository;
@@ -88,18 +89,21 @@ public class UserController {
         return mod;
     }
 
-    @RequestMapping("/reportingWeek/openTableATO")
+    @RequestMapping("/atoTable")
     public ModelAndView doEditFormATO(@RequestParam("idReportingWeek") Long idReportingWeek){
         ModelAndView mod = new ModelAndView();
         ReportingWeekATO reportingWeekATO = reportingWeekATORepository
                 .findById(idReportingWeek).orElseThrow(EntityNotFoundException::new);
+        //TODO check last table if true add (reportingWeekATORepository.save(reportingWeekATO);)
         if (reportingWeekATO.getOwiATOSet() == null || reportingWeekATO.getOwiATOSet().size() == 0) {
             SetOwiATO setOwiATO = new SetOwiATO();
             reportingWeekATO.setOwiATOSet(setOwiATO.outEmptyTableOwiATO(reportingWeekATO));
             reportingWeekATORepository.save(reportingWeekATO);
         }
+        List<String> tableHeader = HeaderTableATO.createTableHeaderATO();
+        mod.addObject("tableHeader", tableHeader);
         mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
-        mod.setViewName("user/atoInfo");
+        mod.setViewName("user/atoTable");
         return mod;
     }
 

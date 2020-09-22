@@ -17,7 +17,7 @@ public class ReportingWeekATO {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="rw_ato_id")
     private long id;
-    @OneToMany(mappedBy = "reportingWeekId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "reportingWeekId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OwiATO> owiATOSet;
     private Date dateStart;
     private Date dateEnd;

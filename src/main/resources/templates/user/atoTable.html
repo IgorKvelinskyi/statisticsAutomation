@@ -1,0 +1,33 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
+<main role="main" class="container">
+    <div class="starter-template">
+        <div th:if="${not #lists.isEmpty(reportingWeekATOList)}">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" rowspan="2">№</th>
+                    <th scope="col" rowspan="2">&nbsp;</th>
+                    <th scope="col" colspan="7">Всього за весь період АТО</th>
+                    <th scope="col" colspan="6">За звітній тиждень</th>
+                </tr>
+                <tr th:each=" value : ${tableHeader}">
+                    <th th:text="value"></th>
+                </tr>
+                </thead>
+                <tbody th:each=" reportingWeek : ${reportingWeekATOList}">
+                <tr th:each="data : ${reportingWeek.getOwiATOSet()}">
+                    <td th:text="data"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+</html>
