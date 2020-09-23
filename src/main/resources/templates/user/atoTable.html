@@ -5,9 +5,10 @@
 </head>
 <body>
 <!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
-<main role="main" class="container">
+<main role="main" class="container-fluid">
     <div class="starter-template" th:if="${not #lists.isEmpty(reportingWeekATOList)}">
-        <table class="table table-bordered">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <table class="rotate-table-grid">
             <thead class="thead-dark">
             <tr>
                 <th scope="col" rowspan="2">№</th>
@@ -18,16 +19,29 @@
             <tr>
                     <span th:each=" value : ${tableHeader}">
                         <th th:text="${value}"/> </span>
-                <!--                    <span th:each=" value : ${tableHeader}"> <span th:text="${value}" /></span>-->
             </tr>
             </thead>
             <tbody th:each=" reportingWeek : ${reportingWeekATOList}">
             <tr th:each="data : ${reportingWeek.getOwiATOSet()}">
+                <td th:text="${data.getVendorCode()}"/>
                 <td th:text="${data.getName()}"/>
+                <td th:text="${data.wholePeriodTotal}"/>
+                <td th:text="${data.wholePeriodCivilian}"/>
+                <td th:text="${data.wholePeriodSoldiers}"/>
+                <td th:text="${data.wholePeriodDemobilized}"/>
+                <td th:text="${data.wholePeriodWomen}"/>
+                <td th:text="${data.wholePeriodChildren}"/>
+                <td th:text="${data.reportingWeekTotal}"/>
+                <td th:text="${data.reportingWeekCivilian}"/>
+                <td th:text="${data.reportingWeekSoldiers}"/>
+                <td th:text="${data.reportingWeekDemobilized}"/>
+                <td th:text="${data.reportingWeekWomen}"/>
+                <td th:text="${data.reportingWeekChildren}"/>
             </tr>
             </tbody>
         </table>
     </div>
 </main>
+<script src="/js/table.js"></script>
 </body>
 </html>

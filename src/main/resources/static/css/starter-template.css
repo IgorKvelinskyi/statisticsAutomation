@@ -5,3 +5,23 @@ body {
   padding: 3rem 1.5rem;
   text-align: left;
 }
+
+table.rotate-table-grid{box-sizing: border-box;
+  border-collapse: collapse;}
+.rotate-table-grid tr, .rotate-table-grid td, .rotate-table-grid th {
+  border: 1px solid #ddd;
+  position: relative;
+  padding: 10px;
+}
+.rotate-table-grid th span {
+  transform-origin: 0 50%;
+  transform: rotate(-90deg);
+  white-space: nowrap;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+}
+
+
+
