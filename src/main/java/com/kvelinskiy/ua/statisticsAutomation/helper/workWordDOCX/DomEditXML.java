@@ -116,6 +116,7 @@ public class DomEditXML {
         return list;
     }
 
+    //TODO method for creat list data for change xml
     private void showAllProps(OwiATO owiATO) {
         Field[] fields = owiATO.getClass().getFields();
         for (Field field : fields) {
@@ -129,15 +130,14 @@ public class DomEditXML {
         }
     }
 
-    private String periodEntryInTitle (ReportingWeekATO reportingWeekATO){
+    private String periodEntryInTitle(ReportingWeekATO reportingWeekATO) {
         SimpleDateFormat dateFormatStart = new SimpleDateFormat("dd MMMM", ukrainianDateFormatSymbols);
         SimpleDateFormat dateFormatEnd = new SimpleDateFormat("dd MMMM yyyy", ukrainianDateFormatSymbols);
         return " з " + dateFormatStart.format(reportingWeekATO.getDateStart())
                 + " по " + dateFormatEnd.format(reportingWeekATO.getDateEnd()) + " року";
     }
 
-    private static DateFormatSymbols ukrainianDateFormatSymbols = new DateFormatSymbols(){
-
+    private static final DateFormatSymbols ukrainianDateFormatSymbols = new DateFormatSymbols() {
         @Override
         public String[] getMonths() {
             return new String[]{"січня", "лютого", "березня", "квітня", "травня", "червня", "липня",

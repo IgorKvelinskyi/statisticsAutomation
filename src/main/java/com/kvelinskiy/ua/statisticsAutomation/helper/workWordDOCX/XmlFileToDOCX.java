@@ -22,10 +22,10 @@ public class XmlFileToDOCX {
             data = new byte[(int) xmlFile.length()];
             fis.read(data);
         }
-        String openXML1 = new String(data, "UTF-8");
+        String openXML = new String(data, "UTF-8");
         WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
         MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
-        mdp.setContents(dRectangleViaXML(openXML1));
+        mdp.setContents(dRectangleViaXML(openXML));
         wordMLPackage.save(new File(fileOutPutDOCX));
     }
 
