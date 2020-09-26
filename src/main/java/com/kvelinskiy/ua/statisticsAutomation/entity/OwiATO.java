@@ -14,7 +14,6 @@ public class OwiATO {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long owi_ato_id;
-    //@ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rw_ato_id")
     private ReportingWeekATO reportingWeekId;

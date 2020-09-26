@@ -6,41 +6,119 @@
 <body>
 <!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
 <main role="main" class="container-fluid">
-    <div class="starter-template" th:if="${not #lists.isEmpty(reportingWeekATOList)}">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <table class="rotate-table-grid">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col" rowspan="2">№</th>
-                <th scope="col" rowspan="2">&nbsp;</th>
-                <th scope="col" colspan="6">Всього за весь період АТО</th>
-                <th scope="col" colspan="6">За звітній тиждень</th>
-            </tr>
-            <tr>
+    <form th:object="${owiATOForm}" th:action="@{'/user/editAtoTable/'+${idReportingWeek}}">
+        <div class="starter-template" th:if="${not #lists.isEmpty(reportingWeekATO)}">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+            <H3 th:text="${timeInterval}" th:align="center"></H3><br>
+            <table class="rotate-table-grid table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <td rowspan="2"><strong>№</strong></td>
+                    <td rowspan="2">&nbsp;</td>
+                    <td colspan="6" th:align="center"><strong>Всього за весь період АТО</strong></td>
+                    <td colspan="6" th:align="center"><strong>За звітній тиждень</strong></td>
+                </tr>
+                <tr>
                     <span th:each=" value : ${tableHeader}">
-                        <th th:text="${value}"/> </span>
-            </tr>
-            </thead>
-            <tbody th:each=" reportingWeek : ${reportingWeekATOList}">
-            <tr th:each="data : ${reportingWeek.getOwiATOSet()}">
-                <td th:text="${data.getVendorCode()}"/>
-                <td th:text="${data.getName()}"/>
-                <td th:text="${data.wholePeriodTotal}"/>
-                <td th:text="${data.wholePeriodCivilian}"/>
-                <td th:text="${data.wholePeriodSoldiers}"/>
-                <td th:text="${data.wholePeriodDemobilized}"/>
-                <td th:text="${data.wholePeriodWomen}"/>
-                <td th:text="${data.wholePeriodChildren}"/>
-                <td th:text="${data.reportingWeekTotal}"/>
-                <td th:text="${data.reportingWeekCivilian}"/>
-                <td th:text="${data.reportingWeekSoldiers}"/>
-                <td th:text="${data.reportingWeekDemobilized}"/>
-                <td th:text="${data.reportingWeekWomen}"/>
-                <td th:text="${data.reportingWeekChildren}"/>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+                        <th><span th:text="${value}"></span></th>
+                    </span>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="owiATO, stat : *{owiATOList}">
+                    <input type="hidden" th:field="*{owiATOList[__${stat.index}__].vendorCode}"/>
+                    <input type="hidden" th:field="*{owiATOList[__${stat.index}__].name}"/>
+                    <input type="hidden" th:field="*{owiATOList[__${stat.index}__].reportingWeekId}"/>
+                    <input type="hidden" th:field="*{owiATOList[__${stat.index}__].owi_ato_id}"/>
+<!--                    <td th:text="${form21001.form39.numberVisitsAll}==0 ? '' : ${form21001.form39.numberVisitsAll}"></td>-->
+                    <td th:text="*{owiATOList[__${stat.index}__].vendorCode}"/>
+                    <td th:text="*{owiATOList[__${stat.index}__].name}"/>
+                    <td>
+                        <input class="text-primary" min="0" max="5000" type="number"
+                               title="введіть число" th:name="wholePeriodTotal"
+                               th:field="*{owiATOList[__${stat.index}__].wholePeriodTotal}"
+                               placeholder="numbers" required="true" autofocus="true"/>
+                    </td>
+                    <td>
+                        <input class="text-primary" min="0" max="5000" type="number"
+                               title="введіть число" th:name="wholePeriodCivilian"
+                               th:field="*{owiATOList[__${stat.index}__].wholePeriodCivilian}"
+                               placeholder="num" required="true" autofocus="true"/>
+                    </td>
+                    <td>
+                        <input class="text-primary" min="0" max="5000" type="number"
+                               title="введіть число" th:name="wholePeriodSoldiers"
+                               th:field="*{owiATOList[__${stat.index}__].wholePeriodSoldiers}"
+                               placeholder="num" required="true" autofocus="true"/>
+                    </td>
+                    <td>
+                        <input class="text-primary" min="0" max="5000" type="number"
+                               title="введіть число" th:name="wholePeriodDemobilized"
+                               th:field="*{owiATOList[__${stat.index}__].wholePeriodDemobilized}"
+                               placeholder="num" required="true" autofocus="true"/>
+                    </td>
+                    <td>
+                        <input class="text-primary" min="0" max="5000" type="number"
+                               title="введіть число" th:name="wholePeriodWomen"
+                               th:field="*{owiATOList[__${stat.index}__].wholePeriodWomen}"
+                               placeholder="num" required="true" autofocus="true"/>
+                    </td>
+                    <td>
+                        <input class="text-primary" min="0" max="5000" type="number"
+                               title="введіть число" th:name="wholePeriodChildren"
+                               th:field="*{owiATOList[__${stat.index}__].wholePeriodChildren}"
+                               placeholder="num" required="true" autofocus="true"/>
+                    </td>
+                    <td>
+                        <input class="text-primary" min="0" max="5000" type="number"
+                               title="введіть число" th:name="reportingWeekTotal"
+                               th:field="*{owiATOList[__${stat.index}__].reportingWeekTotal}"
+                               placeholder="num" required="true" autofocus="true"/>
+                    </td>
+                    <td>
+                        <input class="text-primary" min="0" max="5000" type="number"
+                               title="введіть число" th:name="reportingWeekCivilian"
+                               th:field="*{owiATOList[__${stat.index}__].reportingWeekCivilian}"
+                               placeholder="num" required="true" autofocus="true"/>
+                    </td>
+                    <td>
+                        <input class="text-primary" min="0" max="5000" type="number"
+                               title="введіть число" th:name="reportingWeekSoldiers"
+                               th:field="*{owiATOList[__${stat.index}__].reportingWeekSoldiers}"
+                               placeholder="num" required="true" autofocus="true"/>
+                    </td>
+                    <td>
+                        <input class="text-primary" min="0" max="5000" type="number"
+                               title="введіть число" th:name="reportingWeekDemobilized"
+                               th:field="*{owiATOList[__${stat.index}__].reportingWeekDemobilized}"
+                               placeholder="num" required="true" autofocus="true"/>
+                    </td>
+                    <td>
+                        <input class="text-primary" min="0" max="5000" type="number"
+                               title="введіть число" th:name="reportingWeekWomen"
+                               th:field="*{owiATOList[__${stat.index}__].reportingWeekWomen}"
+                               placeholder="num" required="true" autofocus="true"/>
+                    </td>
+                    <td>
+                        <input class="text-primary" min="0" max="5000" type="number"
+                               title="введіть число" th:name="reportingWeekChildren"
+                               th:field="*{owiATOList[__${stat.index}__].reportingWeekChildren}"
+                               placeholder="num" required="true" autofocus="true"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </form>
+    <br>
+    <form th:action="@{/user/saveWordDocument}">
+        <div class="row">
+            <button type="submit" class="btn btn-success">Save Word</button>
+        </div>
+    </form>
 </main>
 <script src="/js/table.js"></script>
 </body>
