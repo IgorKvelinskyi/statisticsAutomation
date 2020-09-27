@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head lang="en">
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
@@ -8,9 +8,9 @@
 <main role="main" class="container">
     <div class="starter-template">
         <h1 th:inline="text" th:style="'text-align: center'"> Сторінка підтримки </h1>
-        <p th:if="${url}">
+        <!--<p th:if="${url}">
             <b>Page:</b> <span th:text="${url}">Page URL</span>
-        </p>
+        </p>-->
         <h3 th:inline="text" th:style="'text-align: center'">Повідомлення : помилка - [[${msg}]]</h3>
         <br>
         <P> Додаток виявив помилку. Будь ласка, зв'яжіться зі службою підтримки на .. </p>

@@ -7,13 +7,13 @@
 <body>
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
-    <div class="jumbotron">
-        <h3 th:inline="text" th:style="'text-align: center'" >Повідомлення : [[${msg}]]</h3>
-        <h2>Реєстрація :</h2>
+    <div class="inner cover">
+        <h3 th:inline="text" th:style="'text-align: center'" class="text-light bg-dark">Повідомлення : [[${msg}]]</h3>
+        <h2 class="text-light bg-dark">Реєстрація :</h2>
         <div>
             <form class="form-horizontal" th:action="@{/registration}" method="post">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Логін користувача:</label>
+                    <label class="text-light bg-dark">Логін користувача:</label>
                     <div class="col-sm-10">
                         <!--/*@thymesVar id="username" type="java.lang.String"*/-->
                         <input type="text" class="form-control" th:name="username" th:value="${username}"
@@ -21,16 +21,14 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Пароль користувача:</label>
+                    <label class="text-light bg-dark">Пароль користувача:</label>
                     <div class="col-sm-10">
                         <!--/*@thymesVar id="password" type="java.lang.String"*/-->
                         <input type="password" class="form-control" th:name="password" th:value="${password}"
                                placeholder="Password" required="true" autofocus="true"/>
                     </div>
                 </div>
-                <div class="row">
-                    <button type="submit" class="btn btn-success">Submit</button>
-                </div>
+                <button type="submit" class="btn btn-success">Submit</button>
             </form>
         </div>
     </div>

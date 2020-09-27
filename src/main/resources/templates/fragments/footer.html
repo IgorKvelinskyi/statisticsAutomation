@@ -6,11 +6,15 @@
 </head>
 <body>
 <div th:fragment="footer">
-    © 2020 Kvelinskyi Igor
-    <span sec:authorize="isAuthenticated()">| Logged user: <span sec:authentication="name"></span> |
+    <footer class="mastfoot mt-auto">
+        <div class="inner">
+            © 2020 Kvelinskyi Igor
+            <span sec:authorize="isAuthenticated()">| Logged user: <span sec:authentication="name"></span> |
                 Roles: <span sec:authentication="principal.authorities"></span> |
                 <a th:href="@{/logout}">Sign Out</a>
             </span>
+        </div>
+    </footer>
     <script src="/js/jquery-3.5.1.slim.min.js"></script>
     <script>window.jQuery || document.write('<script src="/js/jquery.slim.min.js"><\/script>')</script>
     <script src="/js/bootstrap.bundle.js"></script>

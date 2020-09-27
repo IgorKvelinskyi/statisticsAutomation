@@ -1,0 +1,37 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body class="text-center">
+<!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
+<main role="main" class="inner cover">
+    <div class="inner">
+        <div th:if="${fileAbsolutePath}">
+            <h2 class="cover-heading">
+                <div class="col-4">
+                    <span th:text="'Файл знаходиться : '"></span>
+                </div>
+                <div class="col-12">
+                    <span th:style="'text-align: center'" th:text="${fileAbsolutePath}"></span>
+                </div>
+            </h2>
+        </div>
+        <br>
+        <form th:action="@{/user/saveWordDocument}">
+            <p class="h2"><strong>Періоди відображення даних:</strong></p>
+            <select class="form-control" name="idReportingWeek" id="idReportingWeek">
+                <option value="0">Виберіть період .....</option>
+                <option th:each=" reportingWeek : ${reportingWeekATOList}"
+                        th:value="${reportingWeek.id}"
+                        th:text="'З ' + ${reportingWeek.dateStart} + ' По ' + ${reportingWeek.dateEnd}">
+                </option>
+            </select>
+            <br>
+            <button type="submit" class="btn btn-lg btn-secondary">Save Word</button>
+        </form>
+    </div>
+</main>
+<!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
+</body>
+</html>

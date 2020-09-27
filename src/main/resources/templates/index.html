@@ -3,25 +3,17 @@
 <head lang="en">
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
-<body >
+<body>
 <!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
-<main role="main" class="p-3 mb-2 bg-secondary text-white">
-<!--    <div class="container">-->
-        <div class="row justify-content-md-center">
-            <h1>І А В М С</h1>
-        </div>
-        <div class="row justify-content-md-center">
-            <img width="400" th:src="@{/images/dub.png}"/>
-        </div>
-        <div class="row justify-content-md-center">
-            <h3> м. Київ </h3>
-        </div>
-    </div>
-    <!--<form th:action="@{/user/wordDoc}">
-        <div class="row">
-            <button type="submit" class="btn btn-success">Submit</button>
-        </div>
-    </form>-->
+<main role="main" class="inner cover">
+        <h1 class="cover-heading">І А В М С</h1>
+        <img width="800" th:src="@{/images/dub.png}"/>
+        <h3 class="cover-heading"> м. Київ </h3>
+        <!--<form th:action="@{/user/wordDoc}">
+            <div class="row">
+                <button type="submit" class="btn btn-lg btn-secondary">Submit</button>
+            </div>
+        </form>-->
 </main>
 <!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
 </body>

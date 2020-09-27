@@ -15,7 +15,7 @@ import java.io.IOException;
  * @author Igor Kvelinskyi (igorkvjava@gmail.com)
  */
 public class XmlFileToDOCX {
-    public void saveDocumentWord(String fileInputXML, String fileOutPutDOCX) throws IOException, JAXBException, Docx4JException {
+    public String saveDocumentWord(String fileInputXML, String fileOutPutDOCX) throws IOException, JAXBException, Docx4JException {
         File xmlFile = new File(fileInputXML);
         byte[] data;
         try (FileInputStream fis = new FileInputStream(xmlFile)) {
@@ -27,6 +27,8 @@ public class XmlFileToDOCX {
         MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
         mdp.setContents(dRectangleViaXML(openXML));
         wordMLPackage.save(new File(fileOutPutDOCX));
+        File docxFile = new File(fileOutPutDOCX);
+        return docxFile!=null ? docxFile.getAbsolutePath() : "FILE NOT FOUND";
     }
 
     private Document dRectangleViaXML(String openXML) throws JAXBException {

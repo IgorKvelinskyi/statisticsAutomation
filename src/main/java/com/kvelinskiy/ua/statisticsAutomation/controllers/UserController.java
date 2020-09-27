@@ -143,16 +143,17 @@ public class UserController {
     }
 
     @RequestMapping("/saveWordDocument")
-    public ModelAndView doFormATO() throws Docx4JException {
+    public ModelAndView saveWordDocument(@RequestParam("idReportingWeek") Long idReportingWeek) throws Docx4JException {
         ModelAndView mod = new ModelAndView();
-        ReportingWeekATO reportingWeekATO = reportingWeekATORepository.findById((long) 17).orElseThrow(EntityNotFoundException::new);
+        String fileAbsolutePath = "false";
+        ReportingWeekATO reportingWeekATO = reportingWeekATORepository.findById(idReportingWeek).orElseThrow(EntityNotFoundException::new);
         XmlFileToDOCX xmlFileToDOCX = new XmlFileToDOCX();
         DomEditXML domEditXML = new DomEditXML();
         String nameFileDOCX ="АТО_оперативна_інформація_за_тиждень_з_"
                 + reportingWeekATO.getDateStart() + "_по_" +reportingWeekATO.getDateEnd()
                 + "_КНП_Клінічна_ лікарня_ПСИХІАТРІЯ.docx";
         try {
-            xmlFileToDOCX.saveDocumentWord(domEditXML.changeDataFileXML
+            fileAbsolutePath = xmlFileToDOCX.saveDocumentWord(domEditXML.changeDataFileXML
                             ("formDOCXato.xml", "formDOCXatoOutput.xml", reportingWeekATO),
                     nameFileDOCX);
         } catch (IOException e) {
@@ -160,15 +161,26 @@ public class UserController {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-        mod.setViewName("/index");
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
+        mod.addObject("fileAbsolutePath", fileAbsolutePath);
+        mod.setViewName("user/saveWordDocument");
         return mod;
     }
 
+    @RequestMapping("/saveWordDocumentPage")
+    public ModelAndView doWordDocumentPage(){
+        ModelAndView mod = new ModelAndView();
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
+        mod.setViewName("user/saveWordDocument");
+        return mod;
+    }
+
+//TODO check mistakes(delete method)
     @RequestMapping("/wordDoc")
     public ModelAndView doWordDoc(){
         ModelAndView mod = new ModelAndView();
         int a = 1/0;
-        mod.setViewName("/index");
+        mod.setViewName("index");
         return mod;
 
     }
