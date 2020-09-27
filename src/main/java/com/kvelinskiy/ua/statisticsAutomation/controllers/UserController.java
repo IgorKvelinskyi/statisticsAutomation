@@ -80,8 +80,6 @@ public class UserController {
     @RequestMapping(value = "/atoInfo")
     public ModelAndView doATOInfo() {
         ModelAndView mod = new ModelAndView();
-        //TODO delete (List<ReportingWeekATO> reportingWeekATOList)
-        List<ReportingWeekATO> reportingWeekATOList = (List<ReportingWeekATO>) reportingWeekATORepository.findAll();
         mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
         mod.setViewName("user/atoInfo");
         return mod;
@@ -150,10 +148,13 @@ public class UserController {
         ReportingWeekATO reportingWeekATO = reportingWeekATORepository.findById((long) 17).orElseThrow(EntityNotFoundException::new);
         XmlFileToDOCX xmlFileToDOCX = new XmlFileToDOCX();
         DomEditXML domEditXML = new DomEditXML();
+        String nameFileDOCX ="АТО_оперативна_інформація_за_тиждень_з_"
+                + reportingWeekATO.getDateStart() + "_по_" +reportingWeekATO.getDateEnd()
+                + "_КНП_Клінічна_ лікарня_ПСИХІАТРІЯ.docx";
         try {
-            xmlFileToDOCX.saveDocumentWord(domEditXML
-                    .changeDataFileXML("formDOCXato.xml", "formDOCXatoOutput.xml", reportingWeekATO),
-                    "formATO.docx");
+            xmlFileToDOCX.saveDocumentWord(domEditXML.changeDataFileXML
+                            ("formDOCXato.xml", "formDOCXatoOutput.xml", reportingWeekATO),
+                    nameFileDOCX);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JAXBException e) {
@@ -161,6 +162,15 @@ public class UserController {
         }
         mod.setViewName("/index");
         return mod;
+    }
+
+    @RequestMapping("/wordDoc")
+    public ModelAndView doWordDoc(){
+        ModelAndView mod = new ModelAndView();
+        int a = 1/0;
+        mod.setViewName("/index");
+        return mod;
+
     }
 
 }

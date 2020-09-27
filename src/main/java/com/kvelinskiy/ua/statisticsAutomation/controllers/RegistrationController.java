@@ -25,7 +25,7 @@ public class RegistrationController {
         this.userRepository = userRepository;
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    @RequestMapping(value = "/toRegistration", method = RequestMethod.POST)
     public ModelAndView doRegistration() {
         ModelAndView modelAndView = new ModelAndView();
         //log.info("class LoginController - IndexController(/index) has started !");

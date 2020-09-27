@@ -14,7 +14,7 @@
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#" th:href="@{/login}" sec:authorize="isAnonymous()" METHODS="GET">Sigh up/in<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#" th:href="@{/login}" sec:authorize="isAnonymous()" METHODS="POST">Sigh up/in<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"  href="#" th:href="@{/user/getMessage}" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">Read Message</a>
@@ -39,8 +39,5 @@
             </div>
         </nav>
     </div>
-    <script src="/js/jquery-3.5.1.slim.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/js/jquery.slim.min.js"><\/script>')</script>
-    <script src="/js/bootstrap.bundle.js"></script>
 </body>
 </html>

@@ -11,6 +11,7 @@
     <div class="jumbotron">
         <div>
             <!--            <p th:if="${loginError}" class="error">Wrong user or password</p>-->
+<!--            th:action="@{/login}"-->
             <form th:action="@{/login}" method="post">
                 <!--/*@thymesVar id="param" type=""*/-->
                 <div th:if="${param.error}">
@@ -38,15 +39,19 @@
                     </div>
                 </div>
                 <div class="row">
-                    <button type="submit" class="btn btn-success">Sign In</button>
+                    <button type="submit" class="btn btn-success">Вхід</button>
                 </div>
             </form>
-            <div>
-            <a href="#" th:href="@{/registration}" sec:authorize="isAnonymous()">Sigh up</a>
-            </div>
+            <br>
+            <form th:action="@{/toRegistration}" method="post">
+                <div class="row">
+                <button type="submit" class="btn btn-success">Реестрація</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 </div>
+<!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
 </body>
 </html>

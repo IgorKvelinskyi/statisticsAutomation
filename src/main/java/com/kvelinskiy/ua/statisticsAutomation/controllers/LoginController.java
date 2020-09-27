@@ -20,7 +20,7 @@ public class LoginController {
     @RequestMapping(value = "/")
     public ModelAndView getIndexSlash() {
         ModelAndView modelAndView = new ModelAndView();
-        //log.info("class LoginController - IndexController(/index) has started !");
+        //log.info("class LoginController - LoginController(/) has started !");
         modelAndView.setViewName("index");
         return modelAndView;
     }
@@ -28,7 +28,7 @@ public class LoginController {
     @RequestMapping(value = "/index")
     public ModelAndView getIndex() {
         ModelAndView modelAndView = new ModelAndView();
-        //log.info("class LoginController - IndexController(/index) has started !");
+        //log.info("class LoginController - LoginController(/index) has started !");
         modelAndView.setViewName("index");
         return modelAndView;
     }

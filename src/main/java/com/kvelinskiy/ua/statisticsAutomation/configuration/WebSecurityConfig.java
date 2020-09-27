@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
@@ -36,19 +37,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //custom 403 access denied handler
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //, "/css/**", "/js/**", "/images/**"
         http.authorizeRequests()
-                .antMatchers("/", "/index", "/registration", "/css/**", "/js/**", "/images/**").permitAll()
+                .antMatchers("/", "/index", "/registration", "/error").permitAll()
                 .antMatchers( "/user/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
                 .antMatchers( "/admin/**").access("hasRole('ROLE_ADMIN')")
 //                .antMatchers("/user/setMessage").access("hasAnyRole('USER')")
 //                .anyRequest().authenticated()
                 .and().formLogin()
                 .loginPage("/login").permitAll()
+                .and().exceptionHandling().accessDeniedPage("/access-denied.html")
                 .and()
                 .logout()
                 .logoutSuccessUrl("/index")
                 .permitAll();
         http.csrf().disable();
+    }
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers(
+
+                // static
+                "/css/**",
+                "/js/**",
+                "/images/**"
+        );
     }
 
     @Bean(name = "passwordEncoder")
@@ -60,22 +73,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
                 .passwordEncoder(passwordencoder());
-      /*  auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .passwordEncoder(NoOpPasswordEncoder.getInstance())
-                .usersByUsernameQuery("select username, password, active from users where username=?")
-                .authoritiesByUsernameQuery("select u.username, ur.roles from users u inner join user_role ur on u.id = ur.user_id where u.username=?");*/
     }
-/* @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("u")
-                        .password("p")
-                        .roles("USER")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
-    }*/
 }
