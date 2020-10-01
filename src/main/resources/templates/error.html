@@ -8,13 +8,9 @@
 <main role="main" class="container">
     <div class="starter-template">
         <h1 th:inline="text" th:style="'text-align: center'"> Сторінка підтримки </h1>
-        <!--<p th:if="${url}">
-            <b>Page:</b> <span th:text="${url}">Page URL</span>
-        </p>-->
         <h3 th:inline="text" th:style="'text-align: center'">Повідомлення : помилка - [[${msg}]]</h3>
         <br>
         <P> Додаток виявив помилку. Будь ласка, зв'яжіться зі службою підтримки на .. </p>
-
         <P> Служба підтримки може попросити вас натиснути правою кнопкою миші, щоб переглянути сторінку джерела. </P>
         <!--
       // Hidden Exception Details  - this is not a recommendation, but here is
@@ -23,10 +19,10 @@
         <div th:utext="'&lt;!--'" th:remove="tag"></div>
         <div th:utext="'Exception: ' + ${stack}" th:remove="tag">${stack}</div>
         <ul th:remove="tag">
-        <li th:each="ste1 : ${errorStack.stackTrace}" th:remove="tag">
-            <span th:utext="${ste1}" th:remove="tag">${ste1}</span></li>
-        <li th:each="ste : ${exceptionSpring.stackTrace}" th:remove="tag">
-            <span th:utext="${ste}" th:remove="tag">${ste}</span></li>
+            <li th:each="ste1 : ${errorStack.stackTrace}" th:remove="tag">
+                <span th:utext="${ste1}" th:remove="tag">${ste1}</span></li>
+            <li th:each="ste : ${exceptionSpring.stackTrace}" th:remove="tag">
+                <span th:utext="${ste}" th:remove="tag">${ste}</span></li>
         </ul>
         <div th:utext="'--&gt;'" th:remove="tag"></div>
     </div>

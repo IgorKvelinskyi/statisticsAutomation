@@ -44,8 +44,10 @@ public class HttpErrorController implements ErrorController {
             WebRequest webRequest
     ) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        final Throwable errorStack = errorAttributes.getError(webRequest);
+        Throwable errorStack = errorAttributes.getError(webRequest);
         String stack = String.valueOf(errorStack);
+        errorStack = errorStack == null ? exceptionSpring : errorStack;
+//        stack = stack != null ?  stack : "not";
         model.addAttribute("stack", stack);
         model.addAttribute("errorStack", errorStack);
         model.addAttribute("exceptionSpring", exceptionSpring);
@@ -82,7 +84,7 @@ public class HttpErrorController implements ErrorController {
             }
 
         }
-        return "/error";
+        return "error";
     }
 
     public String getErrorPath() {

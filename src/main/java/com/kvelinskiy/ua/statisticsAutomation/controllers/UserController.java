@@ -3,31 +3,25 @@ package com.kvelinskiy.ua.statisticsAutomation.controllers;
 import com.kvelinskiy.ua.statisticsAutomation.entity.Message;
 import com.kvelinskiy.ua.statisticsAutomation.entity.ReportingWeekATO;
 import com.kvelinskiy.ua.statisticsAutomation.entity.User;
-import com.kvelinskiy.ua.statisticsAutomation.helper.*;
+import com.kvelinskiy.ua.statisticsAutomation.helper.HeaderTableATO;
+import com.kvelinskiy.ua.statisticsAutomation.helper.OwiATOCreationForm;
+import com.kvelinskiy.ua.statisticsAutomation.helper.SetOwiATO;
 import com.kvelinskiy.ua.statisticsAutomation.helper.workWordDOCX.DomEditXML;
 import com.kvelinskiy.ua.statisticsAutomation.helper.workWordDOCX.XmlFileToDOCX;
 import com.kvelinskiy.ua.statisticsAutomation.repository.MessageRepository;
 import com.kvelinskiy.ua.statisticsAutomation.repository.OwiATORepository;
 import com.kvelinskiy.ua.statisticsAutomation.repository.ReportingWeekATORepository;
-import org.docx4j.Docx4J;
-import org.docx4j.XmlUtils;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
-import org.docx4j.openpackaging.exceptions.InvalidFormatException;
-import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
-import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.EntityNotFoundException;
 import javax.xml.bind.JAXBException;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -85,26 +79,34 @@ public class UserController {
         return mod;
     }
 
-    @RequestMapping("/reportingWeek/timeInterval")
-    public ModelAndView setDatesReportingWeekATO(@RequestParam("dateStart") java.sql.Date dateStart,
+    @RequestMapping("/reportingWeek/newTimeInterval")
+    public ModelAndView newReportingWeekATO(@RequestParam("dateStart") java.sql.Date dateStart,
                                                  @RequestParam("dateEnd") java.sql.Date dateEnd) {
-//        log.info("class AdminController - View Form2100/1 Data Of All Doctor");
+//        log.info("class UserController - View reportingWeek/timeInterval");
         ModelAndView mod = new ModelAndView();
-        ReportingWeekATO reportingWeekATO = new ReportingWeekATO();
-        reportingWeekATO.setDateStart(dateStart);
-        reportingWeekATO.setDateEnd(dateEnd);
-        reportingWeekATORepository.save(reportingWeekATO);
+        ReportingWeekATO reportingWeekATO = reportingWeekATORepository.findByDateStartAndAndDateEnd(dateStart, dateEnd);
+        if (reportingWeekATORepository.findByDateStartAndAndDateEnd(dateStart, dateEnd) == null || reportingWeekATO.getOwiATOSet().size() == 0) {
+            reportingWeekATO = new ReportingWeekATO();
+            reportingWeekATO.setDateStart(dateStart);
+            reportingWeekATO.setDateEnd(dateEnd);
+            SetOwiATO setOwiATO = new SetOwiATO();
+            reportingWeekATO.setOwiATOSet(setOwiATO.outEmptyTableOwiATO(reportingWeekATO));
+            reportingWeekATORepository.save(reportingWeekATO);
+        }else {
+            mod.addObject("msg", "Такий звіт ( з "
+                    + dateStart + " по " + dateEnd + " ) існуе");
+        }
         mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
         mod.setViewName("user/atoInfo");
         return mod;
     }
 
     @RequestMapping("/atoTable")
-    public ModelAndView doFormATO(@RequestParam("idReportingWeek") Long idReportingWeek){
+    public ModelAndView doFormATO(@RequestParam("idReportingWeek") Long idReportingWeek) {
         ModelAndView mod = new ModelAndView();
         ReportingWeekATO reportingWeekATO = reportingWeekATORepository
                 .findById(idReportingWeek).orElseThrow(EntityNotFoundException::new);
-        //TODO check last table if true add (reportingWeekATORepository.save(reportingWeekATO);)
+        //TODO check last table if true add { reportingWeekATORepository.save(reportingWeekATO); }
         if (reportingWeekATO.getOwiATOSet() == null || reportingWeekATO.getOwiATOSet().size() == 0) {
             SetOwiATO setOwiATO = new SetOwiATO();
             reportingWeekATO.setOwiATOSet(setOwiATO.outEmptyTableOwiATO(reportingWeekATO));
@@ -124,7 +126,7 @@ public class UserController {
     }
 
     @RequestMapping("/editAtoTable/{idReportingWeek}")
-    public String doEditFormATO(@PathVariable Long idReportingWeek, OwiATOCreationForm owiATOForm, Model model){
+    public String doEditFormATO(@PathVariable Long idReportingWeek, OwiATOCreationForm owiATOForm, Model model) {
         ReportingWeekATO reportingWeekATO = reportingWeekATORepository
                 .findById(idReportingWeek).orElseThrow(EntityNotFoundException::new);
         reportingWeekATO.setOwiATOSet(owiATOForm.getOwiATOList());
@@ -145,15 +147,20 @@ public class UserController {
     @RequestMapping("/saveWordDocument")
     public ModelAndView saveWordDocument(@RequestParam("idReportingWeek") Long idReportingWeek) throws Docx4JException {
         ModelAndView mod = new ModelAndView();
-        String fileAbsolutePath = "false";
+        if (idReportingWeek == 0){
+            mod.addObject("msg", "Виберіть період для звіта");
+            mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
+            return mod;
+        }
         ReportingWeekATO reportingWeekATO = reportingWeekATORepository.findById(idReportingWeek).orElseThrow(EntityNotFoundException::new);
         XmlFileToDOCX xmlFileToDOCX = new XmlFileToDOCX();
         DomEditXML domEditXML = new DomEditXML();
-        String nameFileDOCX ="АТО_оперативна_інформація_за_тиждень_з_"
-                + reportingWeekATO.getDateStart() + "_по_" +reportingWeekATO.getDateEnd()
+        String nameFileDOCX = "АТО_оперативна_інформація_за_тиждень_з_"
+                + reportingWeekATO.getDateStart() + "_по_" + reportingWeekATO.getDateEnd()
                 + "_КНП_Клінічна_ лікарня_ПСИХІАТРІЯ.docx";
+        File fileDocx = new File(nameFileDOCX);
         try {
-            fileAbsolutePath = xmlFileToDOCX.saveDocumentWord(domEditXML.changeDataFileXML
+            fileDocx = xmlFileToDOCX.saveDocumentWord(domEditXML.changeDataFileXML
                             ("formDOCXato.xml", "formDOCXatoOutput.xml", reportingWeekATO),
                     nameFileDOCX);
         } catch (IOException e) {
@@ -162,24 +169,51 @@ public class UserController {
             e.printStackTrace();
         }
         mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
-        mod.addObject("fileAbsolutePath", fileAbsolutePath);
+        mod.addObject("fileAbsolutePath", fileDocx.getAbsolutePath());
+        mod.addObject("myFile", fileDocx);
         mod.setViewName("user/saveWordDocument");
         return mod;
     }
 
     @RequestMapping("/saveWordDocumentPage")
-    public ModelAndView doWordDocumentPage(){
+    public ModelAndView doWordDocumentPage() {
         ModelAndView mod = new ModelAndView();
         mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
         mod.setViewName("user/saveWordDocument");
         return mod;
     }
 
-//TODO check mistakes(delete method)
+    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+    public @ResponseBody String handleFileUpload(@RequestParam("myFile") String fileName, Model model) {
+        File file = new File(fileName);
+        byte[] bytes;
+        if ( file!=null)  {
+            String name = file.getName();
+            try {
+                try (FileInputStream fis = new FileInputStream(file)) {
+                    bytes = new byte[(int) file.length()];
+                    fis.read(bytes);
+                }
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(name)));
+                stream.write(bytes);
+                stream.close();
+                System.out.println("You successfully uploaded " + name + " into " + name + "-uploaded !");
+                return "user/saveWordDocument" ;
+            }catch ( IOException e ) {
+                System.out.println("You failed to upload " + name + " => " + e.getMessage());
+                    return "user/saveWordDocument" ;
+                }
+            } else {
+            System.out.println("The selected file was empty and could not be uploaded.");
+                return "user/saveWordDocument" ;
+            }
+        }
+
+    //TODO check mistakes(delete method)
     @RequestMapping("/wordDoc")
-    public ModelAndView doWordDoc(){
+    public ModelAndView doWordDoc() {
         ModelAndView mod = new ModelAndView();
-        int a = 1/0;
+        int a = 1 / 0;
         mod.setViewName("index");
         return mod;
 
