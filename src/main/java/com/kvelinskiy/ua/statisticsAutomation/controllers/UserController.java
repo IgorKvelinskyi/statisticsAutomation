@@ -170,7 +170,6 @@ public class UserController {
         }
         mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
         mod.addObject("fileAbsolutePath", fileDocx.getAbsolutePath());
-        mod.addObject("myFile", fileDocx);
         mod.setViewName("user/saveWordDocument");
         return mod;
     }
@@ -183,30 +182,11 @@ public class UserController {
         return mod;
     }
 
-    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    public @ResponseBody String handleFileUpload(@RequestParam("myFile") String fileName, Model model) {
-        File file = new File(fileName);
-        byte[] bytes;
-        if ( file!=null)  {
-            String name = file.getName();
-            try {
-                try (FileInputStream fis = new FileInputStream(file)) {
-                    bytes = new byte[(int) file.length()];
-                    fis.read(bytes);
-                }
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(name)));
-                stream.write(bytes);
-                stream.close();
-                System.out.println("You successfully uploaded " + name + " into " + name + "-uploaded !");
-                return "user/saveWordDocument" ;
-            }catch ( IOException e ) {
-                System.out.println("You failed to upload " + name + " => " + e.getMessage());
-                    return "user/saveWordDocument" ;
-                }
-            } else {
-            System.out.println("The selected file was empty and could not be uploaded.");
-                return "user/saveWordDocument" ;
-            }
+    @RequestMapping(value = "/uploadFile")
+    public ModelAndView  doUploadFile() {
+        ModelAndView mod = new ModelAndView();
+        mod.setViewName("user/uploadForm");
+                return mod ;
         }
 
     //TODO check mistakes(delete method)
