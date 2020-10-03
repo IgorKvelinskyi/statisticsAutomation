@@ -8,22 +8,8 @@
 <main role="main" class="inner cover">
     <div class="inner">
         <div th:if="${msg != null}">
-            <h3 th:inline="text" th:style="'text-align: center'" class="text-light bg-dark">Повідомлення :<p class="text-danger">[[${msg}]]</p></h3>
-        </div>
-        <div th:if="${fileAbsolutePath}">
-            <span th:text="${fileAbsolutePath}"> </span>
-            <form th:action="@{/user/uploadFile}">
-                <br>
-                <button type="submit" class="btn btn-lg btn-secondary">Сторінка завантаження документа!</button>
-            </form>
-           <!-- <h2 class="cover-heading">
-                <div class="col-4">
-                    <span th:text="'Файл знаходиться : '"></span>
-                </div>
-                <div class="col-12">
-                    <span th:style="'text-align: center'" th:text="${fileAbsolutePath}"></span>
-                </div>
-            </h2>-->
+            <h3 th:inline="text" th:style="'text-align: center'" class="text-light bg-dark">Повідомлення :<p
+                    class="text-danger">[[${msg}]]</p></h3>
         </div>
         <br>
         <form th:action="@{/user/saveWordDocument}">
@@ -38,6 +24,13 @@
             <br>
             <button type="submit" class="btn btn-lg btn-secondary">Створити звіт</button>
         </form>
+        <div th:if="${fileAbsolutePath}">
+            <span th:text="'Файл знаходиться : ' + ${fileAbsolutePath}"> </span>
+            <form th:action="@{/user/uploadDocx}">
+                <br>
+                <button type="submit" class="btn btn-lg btn-secondary">Сторінка завантаження документа!</button>
+            </form>
+        </div>
     </div>
 </main>
 <!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->

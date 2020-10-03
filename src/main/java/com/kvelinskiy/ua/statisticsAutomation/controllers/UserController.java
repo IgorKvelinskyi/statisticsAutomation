@@ -40,7 +40,6 @@ public class UserController {
     private final MessageRepository messageRepository;
     private final OwiATORepository owiATORepository;
     private final ReportingWeekATORepository reportingWeekATORepository;
-    private File fileToUpload;
 
     public UserController(MessageRepository messageRepository, OwiATORepository owiATORepository, ReportingWeekATORepository reportingWeekATORepository) {
         this.messageRepository = messageRepository;
@@ -176,7 +175,6 @@ public class UserController {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-        fileToUpload = fileDocx;
         mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
         mod.addObject("fileAbsolutePath", fileDocx.getAbsolutePath());
         mod.setViewName("user/saveWordDocument");
@@ -191,15 +189,15 @@ public class UserController {
         return mod;
     }
 
-    @RequestMapping(value = "/uploadFile")
+    /*@RequestMapping(value = "/uploadFile")
     public ModelAndView  doUploadFile() {
         ModelAndView mod = new ModelAndView();
         mod.addObject("filename", fileToUpload.getName());
         mod.setViewName("user/uploadForm");
                 return mod ;
-        }
+        }*/
 
-    //TODO check mistakes(delete method)
+    //TODO check mistake(delete method)
     @RequestMapping("/wordDoc")
     public ModelAndView doWordDoc() {
         ModelAndView mod = new ModelAndView();

@@ -17,6 +17,8 @@ import java.io.IOException;
 public class XmlFileToDOCX {
     public File saveDocumentWord(String fileInputXML, String fileOutPutDOCX) throws IOException, JAXBException, Docx4JException {
         File xmlFile = new File(fileInputXML);
+        //TODO create enum for (filePath)
+        String filePath = "upload-dir\\" + fileOutPutDOCX;
         byte[] data;
         try (FileInputStream fis = new FileInputStream(xmlFile)) {
             data = new byte[(int) xmlFile.length()];
@@ -26,8 +28,8 @@ public class XmlFileToDOCX {
         WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
         MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
         mdp.setContents(dRectangleViaXML(openXML));
-        wordMLPackage.save(new File(fileOutPutDOCX));
-        File docxFile = new File(fileOutPutDOCX);
+        wordMLPackage.save(new File(filePath));
+        File docxFile = new File(filePath);
         return docxFile!=null ? docxFile : null;
     }
 

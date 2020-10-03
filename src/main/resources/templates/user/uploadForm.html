@@ -6,17 +6,16 @@
 <body>
 <!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
 <main role="main" class="inner cover">
-    <div>
 <!--        enctype="multipart/form-data"-->
+<!--        for upload file to upload dir-->
+    <!--<div>
         <form method="POST"  th:action="@{/user/uploadDocx}">
-            <div th:if="${filename}">
             <input type="text" class="form-control" th:name="filename" th:value="${filename}"
                    th:readonly="filename" placeholder="Text" required="true" autofocus="true"/>
             <br>
             <button type="submit" class="btn btn-lg btn-secondary">Зробити посилання</button>
         </form>
-    </div>
-    </div>
+    </div>-->
     <!--/*@thymesVar id="message" type="java.lang.String"*/-->
     <div th:if="${message}">
         <h5 th:text="${message}"/>
@@ -29,5 +28,6 @@
         </ul>
     </div>
 </main>
+<!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
 </body>
 </html>

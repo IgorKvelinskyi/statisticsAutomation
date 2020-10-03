@@ -30,6 +30,7 @@ public class FileUploadController {
 
     @GetMapping("/user/uploadDocx")
     public String listUploadedFiles(Model model) throws IOException {
+        model.addAttribute("message", "Натисніть на посилання для завантаження");
         model.addAttribute("files", storageService.loadAll().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                         "serveFile", path.getFileName().toString()).build().toUri().toString())
@@ -50,9 +51,9 @@ public class FileUploadController {
                                    RedirectAttributes redirectAttributes) {*/
     @RequestMapping(value = "/user/uploadDocx", method = RequestMethod.POST)
     public String handleFileUpload(@RequestParam("filename") String filename, RedirectAttributes redirectAttributes) throws IOException {
-        File fileDocx = new File(filename);
-        MultipartFile fileToUpload = fileConvertMultipartFile(fileDocx);
-        storageService.store(fileToUpload);
+//        File fileDocx = new File(filename);
+//        MultipartFile fileToUpload = fileConvertMultipartFile(fileDocx);
+//        storageService.store(fileToUpload);
         redirectAttributes.addFlashAttribute("message",
                 "Натисніть на посилання для завантаження");
 
