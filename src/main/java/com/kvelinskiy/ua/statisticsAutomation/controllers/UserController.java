@@ -11,17 +11,24 @@ import com.kvelinskiy.ua.statisticsAutomation.helper.workWordDOCX.XmlFileToDOCX;
 import com.kvelinskiy.ua.statisticsAutomation.repository.MessageRepository;
 import com.kvelinskiy.ua.statisticsAutomation.repository.OwiATORepository;
 import com.kvelinskiy.ua.statisticsAutomation.repository.ReportingWeekATORepository;
+import org.apache.commons.compress.utils.IOUtils;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.persistence.EntityNotFoundException;
 import javax.xml.bind.JAXBException;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
 
 /**
@@ -33,6 +40,7 @@ public class UserController {
     private final MessageRepository messageRepository;
     private final OwiATORepository owiATORepository;
     private final ReportingWeekATORepository reportingWeekATORepository;
+    private File fileToUpload;
 
     public UserController(MessageRepository messageRepository, OwiATORepository owiATORepository, ReportingWeekATORepository reportingWeekATORepository) {
         this.messageRepository = messageRepository;
@@ -168,6 +176,7 @@ public class UserController {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
+        fileToUpload = fileDocx;
         mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
         mod.addObject("fileAbsolutePath", fileDocx.getAbsolutePath());
         mod.setViewName("user/saveWordDocument");
@@ -185,6 +194,7 @@ public class UserController {
     @RequestMapping(value = "/uploadFile")
     public ModelAndView  doUploadFile() {
         ModelAndView mod = new ModelAndView();
+        mod.addObject("filename", fileToUpload.getName());
         mod.setViewName("user/uploadForm");
                 return mod ;
         }
