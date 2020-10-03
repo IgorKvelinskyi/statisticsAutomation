@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.stream.Collectors;
 
@@ -38,13 +39,15 @@ public class FileUploadController {
         return "user/uploadForm";
     }
 
-    @GetMapping("/files/{filename:.+}")
+    //produces = "application/hal+json;charset=utf8"
+    //@GetMapping("/files/{filename:.+}")
+    @RequestMapping(value = "/files/{filename:.+}", method = RequestMethod.GET, produces = "application/hal+json;charset=utf8")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-
         Resource file = storageService.loadAsResource(filename);
+        String responseDecodedToISO_8859_1 = new String(file.getFilename().getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+                "attachment; filename=\"" + responseDecodedToISO_8859_1 + "\"").body(file);
     }
 
     /*public String handleFileUpload(@RequestParam("file") MultipartFile file,
