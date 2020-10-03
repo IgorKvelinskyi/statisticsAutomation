@@ -39,17 +39,17 @@ public class FileUploadController {
         return "user/uploadForm";
     }
 
-    //produces = "application/hal+json;charset=utf8"
-    //@GetMapping("/files/{filename:.+}")
-    @RequestMapping(value = "/files/{filename:.+}", method = RequestMethod.GET, produces = "application/hal+json;charset=utf8")
+    //@RequestMapping(value = "/files/{filename:.+}", method = RequestMethod.GET, produces = "application/hal+json;charset=utf8")
+    @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
         Resource file = storageService.loadAsResource(filename);
-        String responseDecodedToISO_8859_1 = new String(file.getFilename().getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
+        String filenameResponseDecodedToISO_8859_1 = new String(file.getFilename().getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + responseDecodedToISO_8859_1 + "\"").body(file);
+                "attachment; filename=\"" + filenameResponseDecodedToISO_8859_1 + "\"").body(file);
     }
 
+    //TODO method for upload file from PC
     /*public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {*/
     @RequestMapping(value = "/user/uploadDocx", method = RequestMethod.POST)
@@ -84,6 +84,4 @@ public class FileUploadController {
         return multipartFile;
     }
 
-    //https://spring.io/guides/gs/uploading-files/
-    //https://www.youtube.com/watch?v=bmMWrTMB5uo
 }

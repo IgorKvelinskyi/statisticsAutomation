@@ -8,7 +8,6 @@
 <main role="main" class="inner cover">
     <form th:object="${owiATOForm}" th:action="@{'/user/editAtoTable/'+${idReportingWeek}}">
         <div th:if="${not #lists.isEmpty(reportingWeekATO)}">
-            <!--            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
             <H3 th:text="${timeInterval}" th:align="center"></H3><br>
             <table class="rotate-table-grid table-striped table-light">
                 <thead>
@@ -23,6 +22,11 @@
                         <th><span th:text="${value}"></span></th>
                     </span>
                 </tr>
+                <tr class="text-light bg-dark" th:style="'font-weight: bold;'">
+                    <div th:each=" value : ${tableHeaderNumbering}">
+                        <td th:text="${value}" th:align="center"></td>
+                    </div>
+                </tr>
                 </thead>
                 <tbody>
                 <tr th:each="owiATO, stat : *{owiATOList}">
@@ -30,12 +34,11 @@
                     <input type="hidden" th:field="*{owiATOList[__${stat.index}__].name}"/>
                     <input type="hidden" th:field="*{owiATOList[__${stat.index}__].reportingWeekId}"/>
                     <input type="hidden" th:field="*{owiATOList[__${stat.index}__].owi_ato_id}"/>
-                    <!--                    <td th:text="${form21001.form39.numberVisitsAll}==0 ? '' : ${form21001.form39.numberVisitsAll}"></td>-->
                     <td class="text-light bg-dark" th:text="*{owiATOList[__${stat.index}__].vendorCode}"/>
                     <td class="text-light bg-dark" th:text="*{owiATOList[__${stat.index}__].name}"/>
                     <td>
                         <input class="font-weight-bold" min="0" max="5000" type="number"
-                               title="введіть число" th:name="wholePeriodTotal"
+                               title="введіть число" th:name="wholePeriodTotal" th:readonly="wholePeriodTotal"
                                th:field="*{owiATOList[__${stat.index}__].wholePeriodTotal}"
                                placeholder="numbers" required="true" autofocus="true"/>
                     </td>

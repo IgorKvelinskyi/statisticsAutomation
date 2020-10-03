@@ -1,4 +1,4 @@
-package com.kvelinskiy.ua.statisticsAutomation.helper;
+package com.kvelinskiy.ua.statisticsAutomation.helper.creationTableATO;
 
 import com.kvelinskiy.ua.statisticsAutomation.entity.OwiATO;
 import lombok.Data;

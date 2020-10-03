@@ -1,19 +1,17 @@
 package com.kvelinskiy.ua.statisticsAutomation.controllers;
 
 import com.kvelinskiy.ua.statisticsAutomation.entity.Message;
+import com.kvelinskiy.ua.statisticsAutomation.entity.OwiATO;
 import com.kvelinskiy.ua.statisticsAutomation.entity.ReportingWeekATO;
 import com.kvelinskiy.ua.statisticsAutomation.entity.User;
-import com.kvelinskiy.ua.statisticsAutomation.helper.HeaderTableATO;
-import com.kvelinskiy.ua.statisticsAutomation.helper.OwiATOCreationForm;
-import com.kvelinskiy.ua.statisticsAutomation.helper.SetOwiATO;
+import com.kvelinskiy.ua.statisticsAutomation.helper.creationTableATO.HeaderTableATO;
+import com.kvelinskiy.ua.statisticsAutomation.helper.creationTableATO.OwiATOCreationForm;
+import com.kvelinskiy.ua.statisticsAutomation.helper.creationTableATO.SetOwiATO;
 import com.kvelinskiy.ua.statisticsAutomation.helper.workWordDOCX.DomEditXML;
 import com.kvelinskiy.ua.statisticsAutomation.helper.workWordDOCX.XmlFileToDOCX;
 import com.kvelinskiy.ua.statisticsAutomation.repository.MessageRepository;
 import com.kvelinskiy.ua.statisticsAutomation.repository.OwiATORepository;
 import com.kvelinskiy.ua.statisticsAutomation.repository.ReportingWeekATORepository;
-import org.apache.commons.compress.utils.IOUtils;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -22,13 +20,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.persistence.EntityNotFoundException;
 import javax.xml.bind.JAXBException;
 import java.io.*;
-import java.nio.file.Files;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -88,8 +85,8 @@ public class UserController {
 
     @RequestMapping("/reportingWeek/newTimeInterval")
     public ModelAndView newReportingWeekATO(@RequestParam("dateStart") java.sql.Date dateStart,
-                                                 @RequestParam("dateEnd") java.sql.Date dateEnd) {
-//        log.info("class UserController - View reportingWeek/timeInterval");
+                                            @RequestParam("dateEnd") java.sql.Date dateEnd) {
+//        log.info("class UserController - View /reportingWeek/newTimeInterval");
         ModelAndView mod = new ModelAndView();
         ReportingWeekATO reportingWeekATO = reportingWeekATORepository.findByDateStartAndAndDateEnd(dateStart, dateEnd);
         if (reportingWeekATORepository.findByDateStartAndAndDateEnd(dateStart, dateEnd) == null || reportingWeekATO.getOwiATOSet().size() == 0) {
@@ -99,7 +96,7 @@ public class UserController {
             SetOwiATO setOwiATO = new SetOwiATO();
             reportingWeekATO.setOwiATOSet(setOwiATO.outEmptyTableOwiATO(reportingWeekATO));
             reportingWeekATORepository.save(reportingWeekATO);
-        }else {
+        } else {
             mod.addObject("msg", "Такий звіт ( з "
                     + dateStart + " по " + dateEnd + " ) існуе");
         }
@@ -120,10 +117,10 @@ public class UserController {
             reportingWeekATORepository.save(reportingWeekATO);
         }
         String timeInterval = "З: " + reportingWeekATO.getDateStart() + " По: " + reportingWeekATO.getDateEnd();
-        List<String> tableHeader = HeaderTableATO.createTableHeaderATO();
         OwiATOCreationForm owiATOForm = new OwiATOCreationForm();
-        owiATOForm.setOwiATOList(owiATOForm.listSort(reportingWeekATO.getOwiATOSet()));
-        mod.addObject("tableHeader", tableHeader);
+        owiATOForm.setOwiATOList(owiATOForm.listSort(generatingTableData(reportingWeekATO.getOwiATOSet(), reportingWeekATO.getDateEnd())));
+        mod.addObject("tableHeader", HeaderTableATO.createTableHeaderATO());
+        mod.addObject("tableHeaderNumbering", HeaderTableATO.createTableHeaderATONumbering());
         mod.addObject("timeInterval", timeInterval);
         mod.addObject("owiATOForm", owiATOForm);
         mod.addObject("reportingWeekATO", reportingWeekATO);
@@ -132,18 +129,71 @@ public class UserController {
         return mod;
     }
 
+    private List<OwiATO> generatingTableData(List<OwiATO> owiATOSet, Date dateEnd) {
+        List<ReportingWeekATO> owiATOList = reportingWeekATORepository.findByDateStartBefore(dateEnd);
+        if(owiATOList == null || owiATOList.size()==0){
+            return generatingTableDataTotal(owiATOSet);
+        }
+        //OwiATO owiATO = new OwiATO();
+        owiATOSet = resetTotalOwiATO(owiATOSet);
+        for (OwiATO owiATO : owiATOSet
+        ) {
+            for (ReportingWeekATO reportingWeekATO : owiATOList
+            ) {
+                List<OwiATO> currentOwiATOSet = reportingWeekATO.getOwiATOSet();
+                for (OwiATO owiATO1 : currentOwiATOSet
+                ) {
+                    if (owiATO.getName().equals(owiATO1.getName())) {
+                        owiATO.setWholePeriodCivilian(owiATO.getWholePeriodCivilian() + owiATO1.getReportingWeekCivilian());
+                        owiATO.setWholePeriodSoldiers(owiATO.getWholePeriodSoldiers() + owiATO1.getReportingWeekSoldiers());
+                        owiATO.setWholePeriodDemobilized(owiATO.getWholePeriodDemobilized() + owiATO1.getReportingWeekDemobilized());
+                        owiATO.setWholePeriodWomen(owiATO.getWholePeriodWomen() + owiATO1.getReportingWeekWomen());
+                        owiATO.setWholePeriodChildren(owiATO.getWholePeriodChildren() + owiATO1.getReportingWeekChildren());
+                    }
+                }
+            }
+        }
+        return generatingTableDataTotal(owiATOSet);
+    }
+
+    private List<OwiATO> resetTotalOwiATO(List<OwiATO> owiATOSet) {
+        for (OwiATO owiATO:owiATOSet
+             ) {
+            owiATO.setWholePeriodCivilian(0);
+            owiATO.setWholePeriodSoldiers(0);
+            owiATO.setWholePeriodDemobilized(0);
+            owiATO.setWholePeriodWomen(0);
+            owiATO.setWholePeriodChildren(0);
+        }
+        return owiATOSet;
+    }
+
+    private List<OwiATO> generatingTableDataTotal (List<OwiATO> owiATOSet){
+        for (OwiATO owiATO : owiATOSet
+        ) {
+            owiATO.setWholePeriodTotal(owiATO.getWholePeriodCivilian() + owiATO.getWholePeriodSoldiers()
+                    + owiATO.getWholePeriodDemobilized() + owiATO.getWholePeriodWomen() + owiATO.getWholePeriodChildren());
+            owiATO.setReportingWeekTotal(owiATO.getReportingWeekCivilian() + owiATO.getReportingWeekSoldiers()
+                    + owiATO.getReportingWeekDemobilized() + owiATO.getReportingWeekWomen() + owiATO.getReportingWeekChildren());
+        }
+        return owiATOSet;
+    }
+
     @RequestMapping("/editAtoTable/{idReportingWeek}")
     public String doEditFormATO(@PathVariable Long idReportingWeek, OwiATOCreationForm owiATOForm, Model model) {
         ReportingWeekATO reportingWeekATO = reportingWeekATORepository
                 .findById(idReportingWeek).orElseThrow(EntityNotFoundException::new);
         reportingWeekATO.setOwiATOSet(owiATOForm.getOwiATOList());
         reportingWeekATORepository.save(reportingWeekATO);
+        List<OwiATO> owiATOList = generatingTableData(owiATOForm.getOwiATOList(), reportingWeekATO.getDateEnd());
+        reportingWeekATO.setOwiATOSet(owiATOList);
+        reportingWeekATORepository.save(reportingWeekATO);
         reportingWeekATO = reportingWeekATORepository
                 .findById(idReportingWeek).orElseThrow(EntityNotFoundException::new);
-        List<String> tableHeader = HeaderTableATO.createTableHeaderATO();
         String timeInterval = "З: " + reportingWeekATO.getDateStart() + " По: " + reportingWeekATO.getDateEnd();
         owiATOForm.setOwiATOList(owiATOForm.listSort(reportingWeekATO.getOwiATOSet()));
-        model.addAttribute("tableHeader", tableHeader);
+        model.addAttribute("tableHeader", HeaderTableATO.createTableHeaderATO());
+        model.addAttribute("tableHeaderNumbering", HeaderTableATO.createTableHeaderATONumbering());
         model.addAttribute("timeInterval", timeInterval);
         model.addAttribute("owiATOForm", owiATOForm);
         model.addAttribute("reportingWeekATO", reportingWeekATO);
@@ -154,7 +204,7 @@ public class UserController {
     @RequestMapping("/saveWordDocument")
     public ModelAndView saveWordDocument(@RequestParam("idReportingWeek") Long idReportingWeek) throws Docx4JException {
         ModelAndView mod = new ModelAndView();
-        if (idReportingWeek == 0){
+        if (idReportingWeek == 0) {
             mod.addObject("msg", "Виберіть період для звіта");
             mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
             return mod;
@@ -164,7 +214,7 @@ public class UserController {
         DomEditXML domEditXML = new DomEditXML();
         String nameFileDOCX = "АТО_оперативна_інформація_за_тиждень_з_"
                 + reportingWeekATO.getDateStart() + "_по_" + reportingWeekATO.getDateEnd()
-                + "_КНП_Клінічна_ лікарня_ПСИХІАТРІЯ.docx";
+                + "_КНП_Клінічна_лікарня_ПСИХІАТРІЯ.docx";
         File fileDocx = new File(nameFileDOCX);
         try {
             fileDocx = xmlFileToDOCX.saveDocumentWord(domEditXML.changeDataFileXML
