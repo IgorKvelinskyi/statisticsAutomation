@@ -168,7 +168,7 @@
                     <w:u w:val="single"/>
                     <w:lang w:eastAsia="ru-RU" w:val="uk-UA"/>
                 </w:rPr>
-                <w:t> з 03 вересня по 09 вересня 2020 року</w:t>
+                <w:t> з 03 вересня по 09 жовтня 2020 року</w:t>
             </w:r>
         </w:p>
         <w:p w:rsidP="007E1392" w:rsidR="007E1392" w:rsidRDefault="007E1392" w:rsidRPr="003344E7">
@@ -2673,7 +2673,7 @@
                                 <w:szCs w:val="28"/>
                                 <w:lang w:val="uk-UA"/>
                             </w:rPr>
-                            <w:t>691</w:t>
+                            <w:t>692</w:t>
                         </w:r>
                     </w:p>
                 </w:tc>
@@ -2766,7 +2766,7 @@
                                 <w:szCs w:val="28"/>
                                 <w:lang w:val="uk-UA"/>
                             </w:rPr>
-                            <w:t>525</w:t>
+                            <w:t>528</w:t>
                         </w:r>
                     </w:p>
                 </w:tc>
@@ -2861,7 +2861,7 @@
                                 <w:szCs w:val="28"/>
                                 <w:lang w:val="uk-UA"/>
                             </w:rPr>
-                            <w:t>-</w:t>
+                            <w:t>1</w:t>
                         </w:r>
                     </w:p>
                 </w:tc>
@@ -2955,7 +2955,7 @@
                                 <w:szCs w:val="28"/>
                                 <w:lang w:val="uk-UA"/>
                             </w:rPr>
-                            <w:t>-</w:t>
+                            <w:t>1</w:t>
                         </w:r>
                     </w:p>
                 </w:tc>
@@ -3018,7 +3018,7 @@
                                 <w:szCs w:val="28"/>
                                 <w:lang w:val="uk-UA"/>
                             </w:rPr>
-                            <w:t>1</w:t>
+                            <w:t>-</w:t>
                         </w:r>
                     </w:p>
                 </w:tc>
@@ -3146,7 +3146,7 @@
                                 <w:szCs w:val="28"/>
                                 <w:lang w:val="uk-UA"/>
                             </w:rPr>
-                            <w:t>1</w:t>
+                            <w:t>-</w:t>
                         </w:r>
                     </w:p>
                 </w:tc>
@@ -3958,7 +3958,7 @@
                                 <w:u w:val="single"/>
                                 <w:lang w:eastAsia="ru-RU" w:val="uk-UA"/>
                             </w:rPr>
-                            <w:t>09.09.2020р.</w:t>
+                            <w:t>09.10.2020р.</w:t>
                         </w:r>
                     </w:p>
                 </w:tc>

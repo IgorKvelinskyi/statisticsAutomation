@@ -135,11 +135,13 @@
             <version>1.9</version>
         </dependency>-->
         <!-- end -->
-        <dependency>
+<!--        dublicat-->
+       <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
+        </dependency>-->
+        <!--        dublicat-->
         <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
         <dependency>
             <groupId>commons-fileupload</groupId>
