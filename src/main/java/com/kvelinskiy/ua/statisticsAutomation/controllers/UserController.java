@@ -138,7 +138,6 @@ public class UserController {
         return mod;
     }
 
-
     @RequestMapping("/editAtoTable/{idReportingWeek}")
     public String doEditFormATO(@PathVariable Long idReportingWeek, OwiATOCreationForm owiATOForm, Model model) {
         ReportingWeekATO reportingWeekATO = reportingWeekATORepository
@@ -201,7 +200,6 @@ public class UserController {
         mod.setViewName("user/saveWordDocument");
         return mod;
     }
-
 
     private List<OwiATO> generatingTableData(List<OwiATO> owiATOSet, Date dateEnd) {
         List<ReportingWeekATO> owiATOList = reportingWeekATORepository.findByDateStartBefore(dateEnd);
@@ -268,7 +266,7 @@ public class UserController {
 
     //TODO check mistake(delete method)
     @RequestMapping("/divisionByZero")
-    public ModelAndView doWordDoc() {
+    public ModelAndView doDivisionByZero() {
         ModelAndView mod = new ModelAndView();
         int a = 1 / 0;
         mod.setViewName("index");
