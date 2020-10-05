@@ -1,5 +1,6 @@
 package com.kvelinskiy.ua.statisticsAutomation.helper.uploadingfiles;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -89,6 +90,9 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public void deleteAll() {
+        //TODO changing the file deletion method
+        File file = new File("xml-dir/formDOCXatoOutput.xml");
+        file.delete();
         FileSystemUtils.deleteRecursively(rootLocationDocx.toFile());
     }
 
