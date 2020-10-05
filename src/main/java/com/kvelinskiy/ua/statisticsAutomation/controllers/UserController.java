@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityNotFoundException;
 import javax.xml.bind.JAXBException;
@@ -78,7 +79,7 @@ public class UserController {
     @RequestMapping(value = "/atoInfo")
     public ModelAndView doATOInfo() {
         ModelAndView mod = new ModelAndView();
-        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
         mod.setViewName("user/atoInfo");
         return mod;
     }
@@ -100,14 +101,21 @@ public class UserController {
             mod.addObject("msg", "Такий звіт ( з "
                     + dateStart + " по " + dateEnd + " ) існуе");
         }
-        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
+        mod.addObject("message", "Новий період додано");
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
         mod.setViewName("user/atoInfo");
         return mod;
     }
 
     @RequestMapping("/atoTable")
-    public ModelAndView doFormATO(@RequestParam("idReportingWeek") Long idReportingWeek) {
+    public ModelAndView doFormATO(@RequestParam("idReportingWeek") Long idReportingWeek, RedirectAttributes redirectAttributes) {
         ModelAndView mod = new ModelAndView();
+        if(idReportingWeek == 0){
+            redirectAttributes.addFlashAttribute("msg", "Виберіть період");
+           // mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
+            mod.setViewName("redirect:/user/atoInfo");
+            return mod;
+        }
         ReportingWeekATO reportingWeekATO = reportingWeekATORepository
                 .findById(idReportingWeek).orElseThrow(EntityNotFoundException::new);
         //TODO check last table if true add { reportingWeekATORepository.save(reportingWeekATO); }
@@ -119,12 +127,14 @@ public class UserController {
         String timeInterval = "З: " + reportingWeekATO.getDateStart() + " По: " + reportingWeekATO.getDateEnd();
         OwiATOCreationForm owiATOForm = new OwiATOCreationForm();
         owiATOForm.setOwiATOList(owiATOForm.listSort(generatingTableData(reportingWeekATO.getOwiATOSet(), reportingWeekATO.getDateEnd())));
+        String message = "Введіть дані в таблицю";
         mod.addObject("tableHeader", HeaderTableATO.createTableHeaderATO());
         mod.addObject("tableHeaderNumbering", HeaderTableATO.createTableHeaderATONumbering());
         mod.addObject("timeInterval", timeInterval);
         mod.addObject("owiATOForm", owiATOForm);
         mod.addObject("reportingWeekATO", reportingWeekATO);
         mod.addObject("idReportingWeek", idReportingWeek);
+        mod.addObject("message", message);
         mod.setViewName("user/atoTable");
         return mod;
     }
@@ -192,12 +202,14 @@ public class UserController {
                 .findById(idReportingWeek).orElseThrow(EntityNotFoundException::new);
         String timeInterval = "З: " + reportingWeekATO.getDateStart() + " По: " + reportingWeekATO.getDateEnd();
         owiATOForm.setOwiATOList(owiATOForm.listSort(reportingWeekATO.getOwiATOSet()));
+        String message = "Дані введені, перевірте результат.";
         model.addAttribute("tableHeader", HeaderTableATO.createTableHeaderATO());
         model.addAttribute("tableHeaderNumbering", HeaderTableATO.createTableHeaderATONumbering());
         model.addAttribute("timeInterval", timeInterval);
         model.addAttribute("owiATOForm", owiATOForm);
         model.addAttribute("reportingWeekATO", reportingWeekATO);
         model.addAttribute("idReportingWeek", idReportingWeek);
+        model.addAttribute("message", message);
         return "user/atoTable";
     }
 
@@ -225,7 +237,7 @@ public class UserController {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
         mod.addObject("fileAbsolutePath", fileDocx.getAbsolutePath());
         mod.setViewName("user/saveWordDocument");
         return mod;
@@ -234,7 +246,7 @@ public class UserController {
     @RequestMapping("/saveWordDocumentPage")
     public ModelAndView doWordDocumentPage() {
         ModelAndView mod = new ModelAndView();
-        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
         mod.setViewName("user/saveWordDocument");
         return mod;
     }
@@ -248,7 +260,7 @@ public class UserController {
         }*/
 
     //TODO check mistake(delete method)
-    @RequestMapping("/wordDoc")
+    @RequestMapping("/divisionByZero")
     public ModelAndView doWordDoc() {
         ModelAndView mod = new ModelAndView();
         int a = 1 / 0;

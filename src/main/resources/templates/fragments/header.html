@@ -20,13 +20,13 @@
                         <a class="nav-link" href="#" th:href="@{/toRegistration}" sec:authorize="isAnonymous()" >РЕЕСТРАЦІЯ<span class="sr-only">(current)</span></a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link"  href="#" th:href="@{/user/saveWordDocumentPage}" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">Створити звіт</a>
+                    <li class="nav-item active">
+                        <a class="nav-link"  href="#" th:href="@{/user/saveWordDocumentPage}" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">СТВОРИТИ ЗВІТ</a>
                     </li>
-                    <li class="nav-item">
+                   <!-- <li class="nav-item">
                         <a class="nav-link"  href="#" th:href="@{/user/setMessage}" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">Set Message</a>
-                    </li>
-                    <li class="nav-item">
+                    </li>-->
+                    <li class="nav-item active">
                         <a class="nav-link"  href="#" th:href="@{/admin/usersData}" sec:authorize="hasRole('ROLE_ADMIN')">Edit Users</a>
                     </li>
                     <li class="nav-item dropdown" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">

@@ -12,4 +12,5 @@ import java.util.List;
 public interface ReportingWeekATORepository extends CrudRepository<ReportingWeekATO, Long> {
     ReportingWeekATO findByDateStartAndAndDateEnd(Date dateStart, Date dateEnd);
     List<ReportingWeekATO> findByDateStartBefore(Date dateEnd);
+    List<ReportingWeekATO> findByOrderByDateStartAsc();
 }
