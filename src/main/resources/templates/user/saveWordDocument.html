@@ -13,12 +13,13 @@
         </div>
         <br>
         <form th:action="@{/user/saveWordDocument}">
-            <p class="h2"><strong>Періоди відображення даних:</strong></p>
+            <p class="h2"><strong>Виберіть період для звіта:</strong></p>
             <select class="form-control" name="idReportingWeek" id="idReportingWeek">
                 <option value="0">Виберіть період .....</option>
                 <option th:each=" reportingWeek : ${reportingWeekATOList}"
                         th:value="${reportingWeek.id}"
-                        th:text="'З ' + ${reportingWeek.dateStart} + ' По ' + ${reportingWeek.dateEnd}">
+                        th:text="'з ' + ${#dates.format(reportingWeek.dateStart, 'dd-MM-yyyy')} +
+                         ' по ' + ${#dates.format(reportingWeek.dateEnd, 'dd-MM-yyyy')}" class="h2">
                 </option>
             </select>
             <br>

@@ -17,7 +17,7 @@ import java.io.IOException;
 public class XmlFileToDOCX {
     public File saveDocumentWord(String fileInputXML, String fileOutPutDOCX) throws IOException, JAXBException, Docx4JException {
         File xmlFile = new File(fileInputXML);
-        //TODO create enum for (filePath)
+        //TODO create ENUM for (fileDOCXPath)
         String filePath = "upload-dir\\" + fileOutPutDOCX;
         byte[] data;
         try (FileInputStream fis = new FileInputStream(xmlFile)) {

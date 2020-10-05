@@ -2,6 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head lang="en">
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+    <style>
+        select1 {
+            width: 300px; /* Ширина списка в пикселах */
+        }
+    </style>
 </head>
 <body>
 <!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
@@ -17,15 +22,15 @@
                 <div th:if="${not #lists.isEmpty(reportingWeekATOList)}">
                     <p class="h2"><strong>Активні періоди відображення даних:</strong></p>
                     <table class="table-bordered table">
-                        <tr>
+                        <tr class="h2">
                             <th class="text-light bg-dark" scope="col">#</th>
                             <th class="text-light bg-dark">Дата початку:</th>
                             <th class="text-light bg-dark">Дата кінця:</th>
                         </tr>
-                        <tr th:each=" reportingWeek, iter : ${reportingWeekATOList}">
+                        <tr th:each=" reportingWeek, iter : ${reportingWeekATOList}"  class="h2">
                             <th class="text-light bg-dark" scope="row" th:text="${iter.count}"></th>
-                            <td class="text-light bg-dark" th:style="'font-weight: bold;'" th:text="${reportingWeek.dateStart}"></td>
-                            <td class="text-light bg-dark" th:style="'font-weight: bold;'" th:text="${reportingWeek.dateEnd}"></td>
+                            <td class="text-light bg-dark" th:style="'font-weight: bold;'" th:text="${#dates.format(reportingWeek.dateStart, 'dd-MM-yyyy')}"></td>
+                            <td class="text-light bg-dark" th:style="'font-weight: bold;'" th:text="${#dates.format(reportingWeek.dateEnd, 'dd-MM-yyyy')}"></td>
                         </tr>
                     </table>
                 </div>
@@ -34,27 +39,11 @@
             </td>
             <!--            Періоди відображення даних-->
             <td width="40%">
-                <div th:if="${not #lists.isEmpty(reportingWeekATOList)}">
-                    <form th:action="@{/user/atoTable}">
-                        <p class="h2"><strong>Періоди відображення даних:</strong></p>
-                        <select class="form-control" name="idReportingWeek" id="idReportingWeek">
-                            <option value="0">Виберіть період .....</option>
-                            <option th:each=" reportingWeek : ${reportingWeekATOList}"
-                                    th:value="${reportingWeek.id}"
-                                    th:text="'З ' + ${reportingWeek.dateStart} + ' По ' + ${reportingWeek.dateEnd}">
-                            </option>
-                        </select>
-                        <br/>
-                        <button type="submit" class="btn btn-lg btn-secondary">Перейти до таблиці</button>
-                    </form>
-                </div>
-                <br>
-                <br>
                 <form th:action="@{/user/reportingWeek/newTimeInterval}">
                     <div>
                         <p class="h2"><strong>Ввести новий період відображення даних:</strong></p>
                         <table class="table table-light table-bordered">
-                            <tr>
+                            <tr class="h2">
                                 <th style="width: 30px;">Дата початку:</th>
                                 <th style="width: 30px;">Дата кінця:</th>
                             </tr>
@@ -77,6 +66,23 @@
                     <br/>
                     <button type="submit" class="btn btn-lg btn-secondary">Додати новий період</button>
                 </form>
+                <br>
+                <br>
+                <div th:if="${not #lists.isEmpty(reportingWeekATOList)}">
+                    <form th:action="@{/user/atoTable}">
+                        <p class="h2"><strong>Виберіть періоди відображення даних:</strong></p>
+                        <select th:width="300px" th:height="150px" class="form-control" name="idReportingWeek" id="idReportingWeek">
+                            <option th:value="0" class="h2">Виберіть період .....</option>
+                            <option th:each=" reportingWeek : ${reportingWeekATOList}"
+                                    th:value="${reportingWeek.id}"
+                                    th:text="'з ' + ${#dates.format(reportingWeek.dateStart, 'dd-MM-yyyy')}
+                                    + ' по ' + ${#dates.format(reportingWeek.dateEnd, 'dd-MM-yyyy')}" class="h2">
+                            </option>
+                        </select>
+                        <br/>
+                        <button type="submit" class="btn btn-lg btn-secondary">Перейти до таблиці</button>
+                    </form>
+                </div>
             </td>
         </tr>
     </table>
