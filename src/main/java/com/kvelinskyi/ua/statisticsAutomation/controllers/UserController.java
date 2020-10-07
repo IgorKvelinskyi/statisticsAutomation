@@ -14,6 +14,7 @@ import com.kvelinskyi.ua.statisticsAutomation.repository.MessageRepository;
 import com.kvelinskyi.ua.statisticsAutomation.repository.OwiATORepository;
 import com.kvelinskyi.ua.statisticsAutomation.repository.ReportingWeekATORepository;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ public class UserController {
     private final MessageRepository messageRepository;
     private final OwiATORepository owiATORepository;
     private final ReportingWeekATORepository reportingWeekATORepository;
+    @Qualifier("deleteTimeFiles")
     private CommandLineRunner commandLineRunner;
 
     public UserController(MessageRepository messageRepository, OwiATORepository owiATORepository, ReportingWeekATORepository reportingWeekATORepository, CommandLineRunner commandLineRunner) {
