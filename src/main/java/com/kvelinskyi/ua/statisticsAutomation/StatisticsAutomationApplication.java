@@ -17,7 +17,7 @@ public class StatisticsAutomationApplication {
 	}
 
 	@Bean(name = "deleteTimeFiles")
-	CommandLineRunner init(StorageService storageService) {
+	public CommandLineRunner init(StorageService storageService) {
 		return (args) -> {
 			storageService.deleteAll();
 			storageService.init();

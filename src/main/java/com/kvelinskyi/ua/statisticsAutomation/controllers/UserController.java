@@ -8,8 +8,6 @@ import com.kvelinskyi.ua.statisticsAutomation.helper.FormatTheDate;
 import com.kvelinskyi.ua.statisticsAutomation.helper.creationTableATO.HeaderTableATO;
 import com.kvelinskyi.ua.statisticsAutomation.helper.creationTableATO.OwiATOCreationForm;
 import com.kvelinskyi.ua.statisticsAutomation.helper.creationTableATO.SetOwiATO;
-import com.kvelinskyi.ua.statisticsAutomation.helper.uploadingfiles.FileSystemStorageService;
-import com.kvelinskyi.ua.statisticsAutomation.helper.uploadingfiles.StorageService;
 import com.kvelinskyi.ua.statisticsAutomation.helper.workWordDOCX.DomEditXML;
 import com.kvelinskyi.ua.statisticsAutomation.helper.workWordDOCX.XmlFileToDOCX;
 import com.kvelinskyi.ua.statisticsAutomation.repository.MessageRepository;
@@ -17,9 +15,6 @@ import com.kvelinskyi.ua.statisticsAutomation.repository.OwiATORepository;
 import com.kvelinskyi.ua.statisticsAutomation.repository.ReportingWeekATORepository;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,11 +40,13 @@ public class UserController {
     private final MessageRepository messageRepository;
     private final OwiATORepository owiATORepository;
     private final ReportingWeekATORepository reportingWeekATORepository;
+    private CommandLineRunner commandLineRunner;
 
-    public UserController(MessageRepository messageRepository, OwiATORepository owiATORepository, ReportingWeekATORepository reportingWeekATORepository) {
+    public UserController(MessageRepository messageRepository, OwiATORepository owiATORepository, ReportingWeekATORepository reportingWeekATORepository, CommandLineRunner commandLineRunner) {
         this.messageRepository = messageRepository;
         this.owiATORepository = owiATORepository;
         this.reportingWeekATORepository = reportingWeekATORepository;
+        this.commandLineRunner = commandLineRunner;
     }
 
     //TODO delete
@@ -279,7 +276,12 @@ public class UserController {
     @RequestMapping("/divisionByZero")
     public ModelAndView doDivisionByZero() {
         ModelAndView mod = new ModelAndView();
-        int a = 1 / 0;
+        try {
+            commandLineRunner.run("storage");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // int a = 1 / 0;
         mod.setViewName("index");
         return mod;
 
