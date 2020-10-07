@@ -8,11 +8,11 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Igor Kvelinskyi (igorkvjava@gmail.com)
  */
 @Controller
-public class LoginController {
+public class IndexController {
     @RequestMapping(value = "/")
     public ModelAndView getIndexSlash() {
         ModelAndView modelAndView = new ModelAndView();
-        //log.info("class LoginController - LoginController(/) has started !");
+        //log.info("class IndexController - IndexController(/) has started !");
         modelAndView.setViewName("index");
         return modelAndView;
     }
@@ -20,7 +20,7 @@ public class LoginController {
     @RequestMapping(value = "/index")
     public ModelAndView getIndex() {
         ModelAndView modelAndView = new ModelAndView();
-        //log.info("class LoginController - LoginController(/index) has started !");
+        //log.info("class IndexController - IndexController(/index) has started !");
         modelAndView.setViewName("index");
         return modelAndView;
     }

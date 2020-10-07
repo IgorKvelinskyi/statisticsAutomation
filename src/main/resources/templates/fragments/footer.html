@@ -8,8 +8,8 @@
 <div th:fragment="footer">
     <footer class="mastfoot mt-auto">
         <div class="inner">
-            © 2020 Kvelinskyi Igor
-            <span sec:authorize="isAuthenticated()">| Logged user: <span sec:authentication="name"></span> |
+            <p class="text-primary">© 2020 Kvelinskyi Igor</p>
+            <span sec:authorize="hasAnyRole('ROLE_ADMIN')">| Logged user: <span sec:authentication="name"></span> |
                 Roles: <span sec:authentication="principal.authorities"></span> |
                 <a th:href="@{/logout}">Sign Out</a>
             </span>

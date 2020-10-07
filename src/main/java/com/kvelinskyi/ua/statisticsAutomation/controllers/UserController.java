@@ -52,6 +52,7 @@ public class UserController {
         this.reportingWeekATORepository = reportingWeekATORepository;
     }
 
+    //TODO delete
     @RequestMapping(value = "/getMessage")
     public ModelAndView doPrintMessage(@AuthenticationPrincipal User userSpring) {
         ModelAndView mod = new ModelAndView();
@@ -62,6 +63,7 @@ public class UserController {
         return mod;
     }
 
+    //TODO delete
     @RequestMapping(value = "/setMessage")
     public ModelAndView setMessage() {
         ModelAndView modelAndView = new ModelAndView();
@@ -70,6 +72,7 @@ public class UserController {
         return modelAndView;
     }
 
+    //TODO delete
     @RequestMapping(value = "/message/add", method = RequestMethod.GET)
     public ModelAndView doAddMessage(@RequestParam("text") String text) {
         ModelAndView modelAndView = new ModelAndView();
@@ -117,7 +120,7 @@ public class UserController {
     @RequestMapping("/atoTable")
     public ModelAndView doFormATO(@RequestParam("idReportingWeek") Long idReportingWeek, RedirectAttributes redirectAttributes) {
         ModelAndView mod = new ModelAndView();
-        if(idReportingWeek == 0){
+        if (idReportingWeek == 0) {
             redirectAttributes.addFlashAttribute("msg", "Виберіть період");
             mod.setViewName("redirect:/user/atoInfo");
             return mod;
@@ -168,11 +171,13 @@ public class UserController {
     }
 
     @RequestMapping("/saveWordDocument")
-    public ModelAndView saveWordDocument(@RequestParam("idReportingWeek") Long idReportingWeek) throws Docx4JException {
+    public ModelAndView saveWordDocument(@RequestParam("idReportingWeek") Long idReportingWeek, RedirectAttributes redirectAttributes) throws Docx4JException {
         ModelAndView mod = new ModelAndView();
         if (idReportingWeek == 0) {
             mod.addObject("msg", "Виберіть період для звіта");
-            mod.addObject("reportingWeekATOList", reportingWeekATORepository.findAll());
+            mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
+            //mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
+           // mod.setViewName("redirect:/user/saveWordDocument");
             return mod;
         }
         ReportingWeekATO reportingWeekATO = reportingWeekATORepository.findById(idReportingWeek).orElseThrow(EntityNotFoundException::new);
@@ -209,7 +214,7 @@ public class UserController {
 
     private List<OwiATO> generatingTableData(List<OwiATO> owiATOSet, Date dateEnd) {
         List<ReportingWeekATO> owiATOList = reportingWeekATORepository.findByDateStartBefore(dateEnd);
-        if(owiATOList == null || owiATOList.size()==0){
+        if (owiATOList == null || owiATOList.size() == 0) {
             return generatingTableDataTotal(owiATOSet);
         }
         //OwiATO owiATO = new OwiATO();
@@ -235,7 +240,7 @@ public class UserController {
     }
 
     private List<OwiATO> resetTotalOwiATO(List<OwiATO> owiATOSet) {
-        for (OwiATO owiATO:owiATOSet
+        for (OwiATO owiATO : owiATOSet
         ) {
             owiATO.setWholePeriodCivilian(0);
             owiATO.setWholePeriodSoldiers(0);
@@ -246,7 +251,7 @@ public class UserController {
         return owiATOSet;
     }
 
-    private List<OwiATO> generatingTableDataTotal (List<OwiATO> owiATOSet){
+    private List<OwiATO> generatingTableDataTotal(List<OwiATO> owiATOSet) {
         for (OwiATO owiATO : owiATOSet
         ) {
             owiATO.setWholePeriodTotal(owiATO.getWholePeriodCivilian() + owiATO.getWholePeriodSoldiers()
@@ -257,7 +262,7 @@ public class UserController {
         return owiATOSet;
     }
 
-    private String timeIntervalConvert(ReportingWeekATO reportingWeekATO){
+    private String timeIntervalConvert(ReportingWeekATO reportingWeekATO) {
         return "з " + FormatTheDate.formDdMmYyyy(reportingWeekATO.getDateStart()) +
                 " по " + FormatTheDate.formDdMmYyyy(reportingWeekATO.getDateEnd());
     }

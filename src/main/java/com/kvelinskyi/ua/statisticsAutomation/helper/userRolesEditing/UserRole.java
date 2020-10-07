@@ -1,4 +1,4 @@
-package com.kvelinskyi.ua.statisticsAutomation.helper;
+package com.kvelinskyi.ua.statisticsAutomation.helper.userRolesEditing;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

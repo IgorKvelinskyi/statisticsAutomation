@@ -6,7 +6,6 @@
 <body class="text-center">
 <!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
 <main role="main" class="inner cover">
-    <div class="inner">
         <div th:if="${msg != null}">
             <h3 th:inline="text" th:style="'text-align: center'" class="text-light bg-dark">Повідомлення :<p
                     class="text-danger">[[${msg}]]</p></h3>
@@ -32,7 +31,6 @@
                 <button type="submit" class="btn btn-lg btn-secondary">Сторінка завантаження документа!</button>
             </form>
         </div>
-    </div>
 </main>
 <!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
 </body>

@@ -2,9 +2,11 @@ package com.kvelinskyi.ua.statisticsAutomation.controllers;
 
 import com.kvelinskyi.ua.statisticsAutomation.entity.Role;
 import com.kvelinskyi.ua.statisticsAutomation.entity.User;
-import com.kvelinskyi.ua.statisticsAutomation.helper.UserRole;
+import com.kvelinskyi.ua.statisticsAutomation.helper.userRolesEditing.FormUserRoles;
+import com.kvelinskyi.ua.statisticsAutomation.helper.userRolesEditing.UserRole;
 import com.kvelinskyi.ua.statisticsAutomation.repository.MessageRepository;
 import com.kvelinskyi.ua.statisticsAutomation.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -37,8 +38,8 @@ public class AdminController {
     @RequestMapping(value = "/usersData")
     public ModelAndView doUsersData() {
         ModelAndView mod = new ModelAndView();
+        //        log.info("class AdminController - RequestMapping usersEditData");
         mod.addObject("listAllUsers", userRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
-//        log.info("class AdminController - RequestMapping usersEditData");
         mod.setViewName("admin/usersData");
         return mod;
     }
@@ -57,7 +58,7 @@ public class AdminController {
 //        log.info("class AdminController - edit user id= " + id);
         User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         user.setPassword("");
-        List<UserRole> userRoles = setUserRolesForUser(user);
+        List<UserRole> userRoles = FormUserRoles.setUserRolesForUser(user);
         model.addAttribute("userRoles", userRoles);
         model.addAttribute("user", user);
         return "admin/userEditData";
@@ -76,35 +77,9 @@ public class AdminController {
         user.setRoles(roleSet);
         userRepository.save(user);
         user.setPassword("");
-        model.addAttribute("userRoles", setUserRolesForUser(user));
+        model.addAttribute("userRoles", FormUserRoles.setUserRolesForUser(user));
         model.addAttribute("user", user);
         return "admin/userEditData";
-    }
-
-    private List<UserRole> setUserRolesForUser(User user) {
-        List<UserRole> userRoles = Arrays.asList(
-                new UserRole(Role.ROLE_ADMIN, false),
-                new UserRole(Role.ROLE_USER, false),
-                new UserRole(Role.ROLE_INCOGNITO, false)
-        );
-        Set<Role> roles = user.getRoles();
-        for (Role role : roles) {
-            switch (role) {
-                case ROLE_USER -> statusActivationForUserRole(userRoles, Role.ROLE_USER);
-                case ROLE_ADMIN -> statusActivationForUserRole(userRoles, Role.ROLE_ADMIN);
-                default -> statusActivationForUserRole(userRoles, Role.ROLE_INCOGNITO);
-            }
-        }
-        return userRoles;
-    }
-
-    private List<UserRole> statusActivationForUserRole(List<UserRole> userRoles, Enum nameRole) {
-        for (UserRole role : userRoles) {
-            if (nameRole.equals(role.getName())) {
-                role.setStatus(true);
-            }
-        }
-        return userRoles;
     }
 
 }

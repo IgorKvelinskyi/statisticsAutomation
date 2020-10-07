@@ -5,43 +5,52 @@
 <head lang="en">
 </head>
 <body>
-    <div th:fragment="body">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="#" th:href="@{/index}">На головну</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#" th:href="@{/login}" sec:authorize="isAnonymous()" METHODS="POST">ВХІД<span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#" th:href="@{/toRegistration}" sec:authorize="isAnonymous()" >РЕЕСТРАЦІЯ<span class="sr-only">(current)</span></a>
-                    </li>
-
-                    <li class="nav-item active">
-                        <a class="nav-link"  href="#" th:href="@{/user/saveWordDocumentPage}" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">СТВОРИТИ ЗВІТ</a>
-                    </li>
-                   <!-- <li class="nav-item">
-                        <a class="nav-link"  href="#" th:href="@{/user/setMessage}" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">Set Message</a>
-                    </li>-->
-                    <li class="nav-item active">
-                        <a class="nav-link"  href="#" th:href="@{/admin/usersData}" sec:authorize="hasRole('ROLE_ADMIN')">Edit Users</a>
-                    </li>
-                    <li class="nav-item dropdown" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ЗВІТИ</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown01">
-                            <a class="dropdown-item" href="#" th:href="@{/user/atoInfo}">Оперативна тижднева інформація АТО</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </li>
-                </ul>
-                <span class="bg-info" sec:authorize="isAuthenticated()">Ласкаво просимо : <span sec:authentication="name"></span></span>
-                <a class="nav-link"  href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()">Вихід</a>
-            </div>
-        </nav>
-    </div>
+<div th:fragment="body">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#" th:href="@{/index}">На головну</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+                aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+<!--                ВХІД-->
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" th:href="@{/login}" sec:authorize="isAnonymous()"
+                       method="post">ВХІД<span class="sr-only">(current)</span></a>
+                </li>
+<!--                СТВОРИТИ ЗВІТ-->
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" th:href="@{/user/saveWordDocumentPage}"
+                       sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">СТВОРИТИ ЗВІТ</a>
+                </li>
+<!--                Адміністрування-->
+                <li class="nav-item dropdown nav-item active" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Адміністрування</a>
+                    <div class="dropdown-menu text-white bg-dark" aria-labelledby="dropdown02">
+                        <a class="dropdown-item text-white bg-dark" href="#" th:href="@{/admin/toRegistration}">РЕЕСТРАЦІЯ</a>
+                        <a class="dropdown-item text-white bg-dark" href="#" th:href="@{/admin/usersData}">РЕДАГУВАТИ КОРИСТУВАЧІВ</a>
+                        <a class="dropdown-item text-white bg-dark" href="#">Something else here</a>
+                    </div>
+                </li>
+<!--                ЗВІТИ-->
+                <li class="nav-item dropdown nav-item active" sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">ЗВІТИ</a>
+                    <div class="dropdown-menu text-white bg-dark" aria-labelledby="dropdown01">
+                        <a class="dropdown-item text-white bg-dark" href="#" th:href="@{/user/atoInfo}">Оперативна тижднева інформація
+                            АТО</a>
+                        <a class="dropdown-item text-white bg-dark" href="#">Надання медичної допомоги з АР Крим</a>
+                        <a class="dropdown-item text-white bg-dark" href="#">Something else here</a>
+                    </div>
+                </li>
+            </ul>
+            <span class="bg-info" sec:authorize="isAuthenticated()">Ласкаво просимо : <span
+                    sec:authentication="name"></span></span>
+            <a class="nav-link" href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()">Вихід</a>
+        </div>
+    </nav>
+</div>
 </body>
 </html>

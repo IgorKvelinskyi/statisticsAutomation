@@ -1,20 +1,58 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
+    <style>
+        @-webkit-keyframes scroll {
+            0% {
+                -webkit-transform: translate(0, 0);
+                transform: translate(0, 0);
+            }
+            100% {
+                -webkit-transform: translate(-100%, 0);
+                transform: translate(-100%, 0)
+            }
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(-100%, 0)
+            }
+        }
+
+        .marquee {
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .marquee * {
+            display: inline-block;
+            padding-left: 100%;
+            -webkit-animation: scroll 21s infinite linear;
+            animation: scroll 21s infinite linear;
+        }
+        .marquee *:hover {
+            -webkit-animation-play-state: paused;
+            animation-play-state: paused;
+        }
+    </style>
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
 <body>
 <!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
-<main role="main" class="inner cover">
-        <h1 class="cover-heading">І А В М С</h1>
-        <img width="800" th:src="@{/images/dub.png}"/>
-        <h3 class="cover-heading"> м. Київ </h3>
+<main role="main" class="inner cover container-fluid">
+    <div class="marquee h2"><span class="text-info">ІНФОРМАЦІЙНО АНАЛІТИЧНИЙ ВІДДІЛ МЕДИЧНОЇ СТАТИСТИКИ</span></div>
+        <div class="row justify-content-center"><img width="800"  th:src="@{/images/stat.png}"/></div>
+    <div class="marquee h3"><span> м. Київ </span></div>
 <!--    divisionByZero-->
-        <form th:action="@{/user/divisionByZero}">
+      <!--  <form th:action="@{/user/divisionByZero}">
             <div class="row">
                 <button type="submit" class="btn btn-lg btn-secondary">Submit</button>
             </div>
-        </form>
+        </form>-->
 </main>
 <!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
 </body>

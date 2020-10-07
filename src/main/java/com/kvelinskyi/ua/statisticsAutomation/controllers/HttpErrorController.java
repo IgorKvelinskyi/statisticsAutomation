@@ -88,6 +88,7 @@ public class HttpErrorController implements ErrorController {
     }
 
     public String getErrorPath() {
-        return "/error";
+        return null;
+//        return "/error";
     }
 }

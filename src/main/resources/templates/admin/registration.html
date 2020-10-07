@@ -11,7 +11,7 @@
         <h3 th:inline="text" th:style="'text-align: center'" class="text-light bg-dark">Повідомлення : [[${msg}]]</h3>
         <h2 class="text-light bg-dark">Реєстрація :</h2>
         <div>
-            <form class="form-horizontal" th:action="@{/registration}" method="post">
+            <form class="form-horizontal" th:action="@{/admin/registration}" method="post">
                 <div class="form-group">
                     <label class="text-light bg-dark">Логін користувача:</label>
                     <div class="col-sm-10">
@@ -28,7 +28,7 @@
                                placeholder="Password" required="true" autofocus="true"/>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" class="btn btn-success">ЗАРЕЄСТРУВАТИ</button>
             </form>
         </div>
     </div>
