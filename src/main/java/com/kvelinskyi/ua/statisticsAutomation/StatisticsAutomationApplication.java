@@ -16,7 +16,7 @@ public class StatisticsAutomationApplication {
 		SpringApplication.run(StatisticsAutomationApplication.class, args);
 	}
 
-	@Bean(name = "deleteTimeFiles")
+	@Bean(name = "deletingTemporaryFiles")
 	public CommandLineRunner init(StorageService storageService) {
 		return (args) -> {
 			storageService.deleteAll();

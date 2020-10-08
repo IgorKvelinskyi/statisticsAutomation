@@ -1,4 +1,4 @@
-package com.kvelinskyi.ua.statisticsAutomation.helper.workWordDOCX;
+package com.kvelinskyi.ua.statisticsAutomation.helper.creationWordDocxATO;
 
 import com.kvelinskyi.ua.statisticsAutomation.entity.OwiATO;
 import com.kvelinskyi.ua.statisticsAutomation.entity.ReportingWeekATO;

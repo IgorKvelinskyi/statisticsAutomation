@@ -44,7 +44,8 @@ public class FileUploadController {
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
         Resource file = storageService.loadAsResource(filename);
-        String filenameResponseDecodedToISO_8859_1 = new String(file.getFilename().getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
+        String filenameResponseDecodedToISO_8859_1 = new String(file.getFilename().getBytes(StandardCharsets.UTF_8),
+                StandardCharsets.ISO_8859_1);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + filenameResponseDecodedToISO_8859_1 + "\"").body(file);
     }
@@ -67,8 +68,8 @@ public class FileUploadController {
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
     }
-
-    private MultipartFile fileConvertMultipartFile(File file) throws IOException {
+//TODO file to Convert MultipartFile
+    /*private MultipartFile fileConvertMultipartFile(File file) throws IOException {
         FileItem fileItem = new DiskFileItem("mainFile", Files.probeContentType(file.toPath()),
                 false, file.getName(), (int) file.length(), file.getParentFile());
         try {
@@ -83,5 +84,5 @@ public class FileUploadController {
         MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
         return multipartFile;
     }
-
+*/
 }

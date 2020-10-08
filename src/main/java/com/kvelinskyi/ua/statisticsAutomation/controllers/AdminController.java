@@ -4,9 +4,7 @@ import com.kvelinskyi.ua.statisticsAutomation.entity.Role;
 import com.kvelinskyi.ua.statisticsAutomation.entity.User;
 import com.kvelinskyi.ua.statisticsAutomation.helper.userRolesEditing.FormUserRoles;
 import com.kvelinskyi.ua.statisticsAutomation.helper.userRolesEditing.UserRole;
-import com.kvelinskyi.ua.statisticsAutomation.repository.MessageRepository;
 import com.kvelinskyi.ua.statisticsAutomation.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -27,12 +25,10 @@ import java.util.Set;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private final MessageRepository messageRepository;
     private final UserRepository userRepository;
 
-    public AdminController(MessageRepository messageRepository, UserRepository userRepository) {
+    public AdminController(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.messageRepository = messageRepository;
     }
 
     @RequestMapping(value = "/usersData")

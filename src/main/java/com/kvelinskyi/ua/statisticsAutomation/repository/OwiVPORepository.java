@@ -1,10 +1,10 @@
 package com.kvelinskyi.ua.statisticsAutomation.repository;
 
-import com.kvelinskyi.ua.statisticsAutomation.entity.Message;
+import com.kvelinskyi.ua.statisticsAutomation.entity.OwiVPO;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  * @author Igor Kvelinskyi (igorkvjava@gmail.com)
  */
-public interface MessageRepository extends CrudRepository<Message, Long> {
+public interface OwiVPORepository extends CrudRepository<OwiVPO, Long> {
 }

@@ -6,8 +6,8 @@
 <body>
 <!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
 <main role="main" class="inner cover">
-<!--        enctype="multipart/form-data"-->
-<!--        for upload file to upload dir-->
+    <!--        enctype="multipart/form-data"-->
+    <!--        for upload file to upload dir-->
     <!--<div>
         <form method="POST"  th:action="@{/user/uploadDocx}">
             <input type="text" class="form-control" th:name="filename" th:value="${filename}"
@@ -23,8 +23,17 @@
     <div>
         <ul>
             <li th:each="file : ${files}">
-                 <a th:href="${file}" th:text="${file}"/>
+                <a th:href="${file}" th:text="${file}"/>
             </li>
+            <li>
+                <br>
+            </li>
+            <!--    deleting temporary files-->
+            <form th:action="@{/user/deletingTemporaryFiles}">
+                <div class="row">
+                    <button type="submit" class="btn btn-success">Видалити завантажувальні файли</button>
+                </div>
+            </form>
         </ul>
     </div>
 </main>

@@ -1,4 +1,4 @@
-package com.kvelinskyi.ua.statisticsAutomation.helper.workWordDOCX;
+package com.kvelinskyi.ua.statisticsAutomation.helper.creationWordDocxATO;
 
 import org.docx4j.XmlUtils;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
