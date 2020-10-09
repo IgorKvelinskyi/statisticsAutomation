@@ -6,7 +6,123 @@
 <body>
 <!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
 <main role="main" class="inner cover">
+    <div class="container-fluid">
+        <form th:object="${formOwiVPO}" th:action="@{'/user/editVpoTable/'+${idReportingWeek}}">
+            <div th:if="${not #lists.isEmpty(reportingWeekVPO)}">
+                <h5 th:align="center">Інформація<br>
+                    ( в межах компетенції)<br>
+                    про надання медичної допомоги внутрішньо переміщеним особам<br>
+                    з АР Крим, м. Севастополя, Донецької та Луганської областей,<br>
+                    які тимчасово перебувають в м. Києві<br>
+                   <span class="text-primary"> станом [[${timeInterval}]] року КНП «Клінічна лікарня «ПСИХІАТРІЯ»</span><br>
+                </h5>
+                <!--                <H3 th:text="${timeInterval}" th:align="center"></H3><br>-->
+                <table class="rotate-table-grid table-striped table-light" th:align="center">
+                    <thead>
+<!--                    mainHeaderVPO-->
+                    <tr class="text-light bg-dark" th:align="center" th:style="'font-weight: bold;'">
+                        <td rowspan="3" th:text="${mainHeaderVPO.get(0)}"></td>
+                        <td rowspan="3" th:text="${mainHeaderVPO.get(1)}"></td>
+                        <td rowspan="3" th:text="${mainHeaderVPO.get(2)}"></td>
+                        <td rowspan="3" th:text="${mainHeaderVPO.get(3)}"></td>
+                        <td colspan="4" th:align="center" th:text="${mainHeaderVPO.get(4)}"></td>
+                        <td colspan="4" th:align="center" th:text="${mainHeaderVPO.get(5)}"></td>
+                    </tr>
+<!--                    secondHeaderVPO-->
+                    <tr class="text-light bg-dark" th:align="center" th:style="'font-weight: bold;'">
+                        <td colspan="2" th:align="center" th:text="${secondHeaderVPO.get(0)}"></td>
+                        <td colspan="2" th:align="center" th:text="${secondHeaderVPO.get(1)}"></td>
+                        <td colspan="2" th:align="center" th:text="${secondHeaderVPO.get(2)}"></td>
+                        <td rowspan="2" th:align="center" th:text="${secondHeaderVPO.get(3)}"></td>
+                        <td rowspan="2" th:align="center" th:text="${secondHeaderVPO.get(4)}"></td>
 
+                    </tr>
+<!--                    thirdHeaderVPO-->
+                    <tr class="text-light bg-dark" th:style="'font-weight: bold;'">
+                        <span th:each="value : ${thirdHeaderVPO}">
+                            <td th:align="center" th:text="${value}"></td>
+                        </span>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:align="center" th:each="owiVPO, stat : *{owiVPOList}">
+                        <input type="hidden" th:field="*{owiVPOList[__${stat.index}__].vendorCode}"/>
+                        <input type="hidden" th:field="*{owiVPOList[__${stat.index}__].nameOfRegions}"/>
+                        <input type="hidden" th:field="*{owiVPOList[__${stat.index}__].reportingWeekVpoId}"/>
+                        <input type="hidden" th:field="*{owiVPOList[__${stat.index}__].owi_vpo_id}"/>
+                        <td class="text-light bg-dark" th:text="*{owiVPOList[__${stat.index}__].vendorCode}"/>
+                        <td class="text-light bg-dark" th:text="*{owiVPOList[__${stat.index}__].nameOfRegions}"/>
+                        <td>
+                            <input class="font-weight-bold" min="0" max="5000" type="number"
+                                   title="введіть число" th:name="totalDisplacedPersons"
+                                   th:field="*{owiVPOList[__${stat.index}__].totalDisplacedPersons}"
+                                   placeholder="numbers" required="true" autofocus="true"/>
+                        </td>
+                        <td>
+                            <input class="font-weight-bold" min="0" max="5000" type="number"
+                                   title="введіть число" th:name="includingChildren"
+                                   th:field="*{owiVPOList[__${stat.index}__].includingChildren}"
+                                   placeholder="num" required="true" autofocus="true"/>
+                        </td>
+                        <td>
+                            <input class="font-weight-bold" min="0" max="5000" type="number"
+                                   title="введіть число" th:name="numberOfPeopleTurnedAdults"
+                                   th:field="*{owiVPOList[__${stat.index}__].numberOfPeopleTurnedAdults}"
+                                   placeholder="num" required="true" autofocus="true"/>
+                        </td>
+                        <td>
+                            <input class="font-weight-bold" min="0" max="5000" type="number"
+                                   title="введіть число" th:name="numberOfPeopleTurnedChildren"
+                                   th:field="*{owiVPOList[__${stat.index}__].numberOfPeopleTurnedChildren}"
+                                   placeholder="num" required="true" autofocus="true"/>
+                        </td>
+                        <td>
+                            <input class="font-weight-bold" min="0" max="5000" type="number"
+                                   title="введіть число" th:name="numberOfPeopleHospitalizedAdults"
+                                   th:field="*{owiVPOList[__${stat.index}__].numberOfPeopleHospitalizedAdults}"
+                                   placeholder="num" required="true" autofocus="true"/>
+                        </td>
+                        <td>
+                            <input class="font-weight-bold" min="0" max="5000" type="number"
+                                   title="введіть число" th:name="numberOfPeopleHospitalizedChildren"
+                                   th:field="*{owiVPOList[__${stat.index}__].numberOfPeopleHospitalizedChildren}"
+                                   placeholder="num" required="true" autofocus="true"/>
+                        </td>
+                        <td>
+                            <input class="font-weight-bold" min="0" max="5000" type="number"
+                                   title="введіть число" th:name="problematicIssuesTakenAccountAdults"
+                                   th:field="*{owiVPOList[__${stat.index}__].problematicIssuesTakenAccountAdults}"
+                                   placeholder="num" required="true" autofocus="true"/>
+                        </td>
+                        <td>
+                            <input class="font-weight-bold" min="0" max="5000" type="number"
+                                   title="введіть число" th:name="problematicIssuesTakenAccountChildren"
+                                   th:field="*{owiVPOList[__${stat.index}__].problematicIssuesTakenAccountChildren}"
+                                   placeholder="num" required="true" autofocus="true"/>
+                        </td>
+                        <td>
+                            <input class="font-weight-bold" min="0" max="5000" type="number"
+                                   title="введіть число" th:name="problematicIssuesChildrenBorn"
+                                   th:field="*{owiVPOList[__${stat.index}__].problematicIssuesChildrenBorn}"
+                                   placeholder="num" required="true" autofocus="true"/>
+                        </td>
+                        <td>
+                            <input class="font-weight-bold" min="0" max="5000" type="number"
+                                   title="введіть число" th:name="problematicIssuesCarryingMedicalExam"
+                                   th:field="*{owiVPOList[__${stat.index}__].problematicIssuesCarryingMedicalExam}"
+                                   placeholder="num" required="true" autofocus="true"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-lg btn-secondary" align="right">Зберегти дані</button>
+        </form>
+        <div th:if="${message}">
+            <h4 th:align="center" class="text-danger" th:text="${message}"/>
+        </div>
+    </div>
 </main>
 <!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
 </body>

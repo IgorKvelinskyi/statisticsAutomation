@@ -18,7 +18,7 @@ public class ReportingWeekATO {
     @Column(name="rw_ato_id")
     private long id;
     @OneToMany(mappedBy = "reportingWeekId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<OwiATO> owiATOSet;
+    private List<OwiATO> owiATOList;
     private Date dateStart;
     private Date dateEnd;
 

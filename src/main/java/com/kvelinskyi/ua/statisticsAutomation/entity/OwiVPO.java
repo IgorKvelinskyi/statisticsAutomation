@@ -19,14 +19,14 @@ public class OwiVPO {
     private ReportingWeekVPO reportingWeekVpoId;
     private String vendorCode;
     private String nameOfRegions;
-    private String totalDisplacedPersons;
-    private String includingChildren;
-    private String numberOfPeopleTurnedAdults;
-    private String numberOfPeopleTurnedChildren;
-    private String numberOfPeopleHospitalizedAdults;
-    private String numberOfPeopleHospitalizedChildren;
-    private String problematicIssuesTakenAccountAdults;
-    private String problematicIssuesTakenAccountChildren;
-    private String problematicIssuesChildrenBorn;
-    private String problematicIssuesCarryingMedicalExam;
+    private int totalDisplacedPersons;
+    private int includingChildren;
+    private int numberOfPeopleTurnedAdults;
+    private int numberOfPeopleTurnedChildren;
+    private int numberOfPeopleHospitalizedAdults;
+    private int numberOfPeopleHospitalizedChildren;
+    private int problematicIssuesTakenAccountAdults;
+    private int problematicIssuesTakenAccountChildren;
+    private int problematicIssuesChildrenBorn;
+    private int problematicIssuesCarryingMedicalExam;
 }

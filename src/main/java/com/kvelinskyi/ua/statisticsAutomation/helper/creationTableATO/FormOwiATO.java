@@ -11,7 +11,7 @@ import java.util.List;
  * @author Igor Kvelinskyi (igorkvjava@gmail.com)
  */
 @Data
-public class OwiATOCreationForm {
+public class FormOwiATO {
     private List<OwiATO> owiATOList;
 
     public List<OwiATO> listSort(List<OwiATO> owiATOList) {

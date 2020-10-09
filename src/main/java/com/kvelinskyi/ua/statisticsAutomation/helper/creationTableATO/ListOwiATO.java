@@ -10,7 +10,7 @@ import java.util.*;
  * @author Igor Kvelinskyi (igorkvjava@gmail.com)
  */
 @Data
-public class SetOwiATO {
+public class ListOwiATO {
     public List<OwiATO> outEmptyTableOwiATO(ReportingWeekATO reportingWeekATO){
         List<String> stringsName= Arrays.asList(
                 "Звернулось за медичною допомогою, з них:",

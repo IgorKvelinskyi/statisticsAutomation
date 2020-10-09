@@ -6,6 +6,10 @@
 <body>
 <!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
 <main role="main" class="inner cover">
+    <div th:if="${msg != null}">
+        <h3 th:inline="text" th:style="'text-align: center'" class="text-light bg-dark"><p class="text-danger">
+            [[${msg}]]</p></h3>
+    </div>
     <h2 th:style="'text-align: center'" class="text-light bg-dark">
         <p class="text-info">Надання медичної допомоги з АР Крим</p>
     </h2>
@@ -68,7 +72,7 @@
                 <br>
                 <!--                Виберіть періоди відображення даних-->
                 <div th:if="${not #lists.isEmpty(reportingWeekVPOList)}">
-                    <form th:action="@{/user/atoTable}">
+                    <form th:action="@{/user/vpoTable}">
                         <p class="h2"><strong>Виберіть періоди відображення даних:</strong></p>
                         <select th:width="300px" th:height="150px" class="form-control" name="idReportingWeek"
                                 id="idReportingWeek">
@@ -86,6 +90,9 @@
             </td>
         </tr>
     </table>
+    <div th:if="${message}">
+        <h4 th:align="center" class="text-danger" th:text="${message}"/>
+    </div>
 </main>
 <!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
 </body>

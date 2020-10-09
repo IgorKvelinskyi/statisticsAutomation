@@ -7,7 +7,7 @@ import java.util.List;
  * @author Igor Kvelinskyi (igorkvjava@gmail.com)
  */
 public class HeaderTableVPO {
-    public static List<String> createTableMainHeaderVPO(){
+    public static List<String> createTableMainHeaderVPO() {
         List<String> strings = Arrays.asList(
                 "№ п/п",
                 "Назва регіонів",
@@ -18,7 +18,8 @@ public class HeaderTableVPO {
         );
         return strings;
     }
-    public static List<String> createTableSecondHeaderVPO(){
+
+    public static List<String> createTableSecondHeaderVPO() {
         List<String> strings = Arrays.asList(
                 "звернулось",
                 "госпіталізовано",
@@ -28,7 +29,8 @@ public class HeaderTableVPO {
         );
         return strings;
     }
-    public static List<String> createTableThirdHeaderVPO(){
+
+    public static List<String> createTableThirdHeaderVPO() {
         List<String> strings = Arrays.asList(
                 "дорослих",
                 "дітей",

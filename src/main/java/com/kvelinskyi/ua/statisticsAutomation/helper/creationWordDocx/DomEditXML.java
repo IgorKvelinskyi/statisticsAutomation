@@ -1,7 +1,9 @@
-package com.kvelinskyi.ua.statisticsAutomation.helper.creationWordDocxATO;
+package com.kvelinskyi.ua.statisticsAutomation.helper.creationWordDocx;
 
 import com.kvelinskyi.ua.statisticsAutomation.entity.OwiATO;
+import com.kvelinskyi.ua.statisticsAutomation.entity.OwiVPO;
 import com.kvelinskyi.ua.statisticsAutomation.entity.ReportingWeekATO;
+import com.kvelinskyi.ua.statisticsAutomation.entity.ReportingWeekVPO;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -29,7 +31,7 @@ import java.util.*;
  * @author Igor Kvelinskyi (igorkvjava@gmail.com)
  */
 public class DomEditXML {
-    public String changeDataFileXML(String fileInputXML, String fileOutPutXML
+    public String changeDataAtoFileXML(String fileInputXML, String fileOutPutXML
             , ReportingWeekATO reportingWeekATO) {
         // create a new DocumentBuilderFactory
         try {
@@ -38,7 +40,7 @@ public class DomEditXML {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
             doc.getDocumentElement().normalize();
-            changeData(doc, fileOutPutXML, reportingWeekATO);
+            changeDataAto(doc, fileOutPutXML, reportingWeekATO);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -49,20 +51,56 @@ public class DomEditXML {
         return fileOutPutXML;
     }
 
-    private void changeData(Document doc, String fileOutPutXML, ReportingWeekATO reportingWeekATO) {
+    public String changeDataVpoFileXML(String fileInputXML, String fileOutPutXML, ReportingWeekVPO reportingWeekVPO) {
+        try {
+            File fXmlFile = new File(fileInputXML);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(fXmlFile);
+            doc.getDocumentElement().normalize();
+            changeDataVpo(doc, fileOutPutXML, reportingWeekVPO);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fileOutPutXML;
+    }
+
+    private void changeDataVpo(Document doc, String fileOutPutXML, ReportingWeekVPO reportingWeekVPO) {
         NodeList nList = doc.getElementsByTagName("w:r");
-        List<OwiATO> listATO = listSortOwiATO(reportingWeekATO.getOwiATOSet());
+        List<OwiVPO> vpoList = listSortOwiVPO(reportingWeekVPO.getOwiVPOList());
+        //Title date (start-end)
+        Node nNodeTitle = nList.item(6);
+        if (nNodeTitle.getNodeType() == Node.ELEMENT_NODE) {
+            Element eElement = (Element) nNodeTitle;
+            changeTagContent(eElement, periodEntryInTitleVpo(reportingWeekVPO));
+        }
+        //Footer date (end)
+        Node nNodeFooter = nList.item(38);
+        if (nNodeFooter.getNodeType() == Node.ELEMENT_NODE) {
+            Element eElement = (Element) nNodeFooter;
+            changeTagContent(eElement, footerDateEndVpo(reportingWeekVPO));
+        }
+        writeDocument(doc, fileOutPutXML);
+    }
+
+    private void changeDataAto(Document doc, String fileOutPutXML, ReportingWeekATO reportingWeekATO) {
+        NodeList nList = doc.getElementsByTagName("w:r");
+        List<OwiATO> listATO = listSortOwiATO(reportingWeekATO.getOwiATOList());
         //Title date (start-end)
         Node nNodeTitle = nList.item(8);
         if (nNodeTitle.getNodeType() == Node.ELEMENT_NODE) {
             Element eElement = (Element) nNodeTitle;
-            changeTagContent(eElement, periodEntryInTitle(reportingWeekATO));
+            changeTagContent(eElement, periodEntryInTitleAto(reportingWeekATO));
         }
         //Footer date (end)
         Node nNodeFooter = nList.item(124);
         if (nNodeFooter.getNodeType() == Node.ELEMENT_NODE) {
             Element eElement = (Element) nNodeFooter;
-            changeTagContent(eElement, footerDateEnd(reportingWeekATO));
+            changeTagContent(eElement, footerDateEndAto(reportingWeekATO));
         }
         //Table data
         int i = 41;
@@ -116,6 +154,15 @@ public class DomEditXML {
         return list;
     }
 
+    private List<OwiVPO> listSortOwiVPO(List<OwiVPO> vpoList) {
+        List<OwiVPO> list = vpoList;
+        Collections.sort(list, new Comparator<OwiVPO>() {
+            public int compare(OwiVPO o1, OwiVPO o2) {
+                return o1.toString().compareTo(o2.toString());
+            }
+        });
+        return list;
+    }
     //TODO method for creat list data for change xml
     private void showAllProps(OwiATO owiATO) {
         Field[] fields = owiATO.getClass().getFields();
@@ -130,11 +177,18 @@ public class DomEditXML {
         }
     }
 
-    private String periodEntryInTitle(ReportingWeekATO reportingWeekATO) {
+    private String periodEntryInTitleAto(ReportingWeekATO reportingWeekATO) {
         SimpleDateFormat dateFormatStart = new SimpleDateFormat("dd MMMM", ukrainianDateFormatSymbols);
         SimpleDateFormat dateFormatEnd = new SimpleDateFormat("dd MMMM yyyy", ukrainianDateFormatSymbols);
         return " з " + dateFormatStart.format(reportingWeekATO.getDateStart())
                 + " по " + dateFormatEnd.format(reportingWeekATO.getDateEnd()) + " року";
+    }
+
+    private String periodEntryInTitleVpo(ReportingWeekVPO reportingWeekVPO) {
+        SimpleDateFormat dateFormatStart = new SimpleDateFormat("dd MMMM", ukrainianDateFormatSymbols);
+        SimpleDateFormat dateFormatEnd = new SimpleDateFormat("dd MMMM yyyy", ukrainianDateFormatSymbols);
+        return " з " + dateFormatStart.format(reportingWeekVPO.getDateStart())
+                + " по " + dateFormatEnd.format(reportingWeekVPO.getDateEnd()) + " року";
     }
 
     private static final DateFormatSymbols ukrainianDateFormatSymbols = new DateFormatSymbols() {
@@ -146,9 +200,13 @@ public class DomEditXML {
 
     };
 
-    private String footerDateEnd(ReportingWeekATO reportingWeekATO) {
+    private String footerDateEndAto(ReportingWeekATO reportingWeekATO) {
         SimpleDateFormat dateFormatStart = new SimpleDateFormat("dd.MM.yyyy");
         return dateFormatStart.format(reportingWeekATO.getDateEnd()) + "р.";
     }
 
+    private String footerDateEndVpo(ReportingWeekVPO reportingWeekVPO) {
+        SimpleDateFormat dateFormatStart = new SimpleDateFormat("dd.MM.yyyy");
+        return dateFormatStart.format(reportingWeekVPO.getDateEnd()) + "р.";
+    }
 }

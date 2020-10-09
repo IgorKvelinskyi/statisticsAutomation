@@ -1,4 +1,4 @@
-package com.kvelinskyi.ua.statisticsAutomation.helper.creationWordDocxATO;
+package com.kvelinskyi.ua.statisticsAutomation.helper.creationTableATO;
 
 import com.kvelinskyi.ua.statisticsAutomation.entity.OwiATO;
 import com.kvelinskyi.ua.statisticsAutomation.entity.ReportingWeekATO;
@@ -24,7 +24,7 @@ public class FormGeneratingTableData {
         ) {
             for (ReportingWeekATO reportingWeekATO : owiATOList
             ) {
-                List<OwiATO> currentOwiATOSet = reportingWeekATO.getOwiATOSet();
+                List<OwiATO> currentOwiATOSet = reportingWeekATO.getOwiATOList();
                 for (OwiATO owiATO1 : currentOwiATOSet
                 ) {
                     if (owiATO.getName().equals(owiATO1.getName())) {

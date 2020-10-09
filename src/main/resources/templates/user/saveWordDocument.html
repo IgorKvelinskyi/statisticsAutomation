@@ -6,31 +6,71 @@
 <body class="text-center">
 <!--/*/ <th:block th:include="fragments/header :: body"></th:block> /*/-->
 <main role="main" class="inner cover">
-        <div th:if="${msg != null}">
-            <h3 th:inline="text" th:style="'text-align: center'" class="text-light bg-dark">Повідомлення :<p
-                    class="text-danger">[[${msg}]]</p></h3>
-        </div>
-        <br>
-        <form th:action="@{/user/saveWordDocument}">
-            <p class="h2"><strong>Виберіть період для звіта:</strong></p>
-            <select class="form-control" name="idReportingWeek" id="idReportingWeek">
-                <option value="0">Виберіть період .....</option>
-                <option th:each=" reportingWeek : ${reportingWeekATOList}"
-                        th:value="${reportingWeek.id}"
-                        th:text="'з ' + ${#dates.format(reportingWeek.dateStart, 'dd-MM-yyyy')} +
+    <div th:if="${msg != null}">
+        <h3 th:inline="text" th:style="'text-align: center'" class="text-light bg-dark">Повідомлення :<p
+                class="text-danger">[[${msg}]]</p></h3>
+    </div>
+    <br>
+    <table>
+        <tr>
+            <td>
+                <h2 th:style="'text-align: center'" class="text-info">
+                    Оперативна тижнева інформація АТО
+                </h2>
+                <form th:action="@{/user/saveWordDocumentAto}">
+                    <p class="h2"><strong>Виберіть період для звіта:</strong></p>
+                    <select class="form-control" name="idReportingWeekAto" id="idReportingWeekAto">
+                        <option value="0">Виберіть період .....</option>
+                        <option th:each=" reportingWeek : ${reportingWeekATOList}"
+                                th:value="${reportingWeek.id}"
+                                th:text="'з ' + ${#dates.format(reportingWeek.dateStart, 'dd-MM-yyyy')} +
                          ' по ' + ${#dates.format(reportingWeek.dateEnd, 'dd-MM-yyyy')}" class="h2">
-                </option>
-            </select>
+                        </option>
+                    </select>
+                    <br>
+                    <button type="submit" class="btn btn-lg btn-secondary">Створити звіт</button>
+                </form>
+                <div th:if="${fileAbsolutePathAto}">
+                    <span th:text="'Файл знаходиться : ' + ${fileAbsolutePathAto}"> </span>
+                    <form th:action="@{/user/uploadDocx}">
+                        <br>
+                        <button type="submit" class="btn btn-lg btn-secondary">Сторінка завантаження документа!</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        <td>
             <br>
-            <button type="submit" class="btn btn-lg btn-secondary">Створити звіт</button>
-        </form>
-        <div th:if="${fileAbsolutePath}">
-            <span th:text="'Файл знаходиться : ' + ${fileAbsolutePath}"> </span>
-            <form th:action="@{/user/uploadDocx}">
-                <br>
-                <button type="submit" class="btn btn-lg btn-secondary">Сторінка завантаження документа!</button>
-            </form>
-        </div>
+            <br>
+        </td>
+        <tr>
+            <td valign="bottom">
+                <h2 th:style="'text-align: center'" class="text-info">
+                    Надання медичної допомоги з АР Крим
+                </h2>
+                <form th:action="@{/user/saveWordDocumentVpo}">
+                    <p class="h2"><strong>Виберіть період для звіта:</strong></p>
+                    <select class="form-control" name="idReportingWeekVpo" id="idReportingWeekVpo">
+                        <option value="0">Виберіть період .....</option>
+                        <option th:each=" reportingWeek : ${reportingWeekVPOList}"
+                                th:value="${reportingWeek.id}"
+                                th:text="'з ' + ${#dates.format(reportingWeek.dateStart, 'dd-MM-yyyy')} +
+                         ' по ' + ${#dates.format(reportingWeek.dateEnd, 'dd-MM-yyyy')}" class="h2">
+                        </option>
+                    </select>
+                    <br>
+                    <button type="submit" class="btn btn-lg btn-secondary">Створити звіт</button>
+                </form>
+                <div th:if="${fileAbsolutePathVpo}">
+                    <span th:text="'Файл знаходиться : ' + ${fileAbsolutePathVpo}"> </span>
+                    <form th:action="@{/user/uploadDocx}">
+                        <br>
+                        <button type="submit" class="btn btn-lg btn-secondary">Сторінка завантаження документа!</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    </table>
 </main>
 <!--/*/ <th:block th:include="fragments/footer :: footer"></th:block> /*/-->
 </body>
