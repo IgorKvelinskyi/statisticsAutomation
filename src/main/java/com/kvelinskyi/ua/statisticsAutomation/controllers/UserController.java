@@ -276,7 +276,7 @@ public class UserController {
         }
         mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartAsc());
         mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
-        mod.addObject("fileAbsolutePathAto", fileDocx.getAbsolutePath());
+        mod.addObject("fileAbsolutePathAto", fileDocx.getName());
         mod.setViewName("user/saveWordDocument");
         return mod;
     }
@@ -308,7 +308,7 @@ public class UserController {
         }
         mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartAsc());
         mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
-        mod.addObject("fileAbsolutePathAto", fileDocx.getAbsolutePath());
+        mod.addObject("fileAbsolutePathVpo", fileDocx.getName());
         mod.setViewName("user/saveWordDocument");
         return mod;
     }

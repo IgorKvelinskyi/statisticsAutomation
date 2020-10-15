@@ -91,8 +91,10 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public void deleteAll() {
         //TODO changing the file deletion method
-        File file = new File("xml-dir/formDOCXatoOutput.xml");
-        file.delete();
+        File file1 = new File("xml-dir/formDOCXatoOutput.xml");
+        File file2 = new File("xml-dir/formDOCXVpoOutput.xml");
+        file1.delete();
+        file2.delete();
         FileSystemUtils.deleteRecursively(rootLocationDocx.toFile());
     }
 

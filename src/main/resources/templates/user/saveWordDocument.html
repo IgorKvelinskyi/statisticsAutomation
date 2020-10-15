@@ -31,10 +31,10 @@
                     <button type="submit" class="btn btn-lg btn-secondary">Створити звіт</button>
                 </form>
                 <div th:if="${fileAbsolutePathAto}">
-                    <span th:text="'Файл знаходиться : ' + ${fileAbsolutePathAto}"> </span>
+                    <span th:text="'Файл : ' + ${fileAbsolutePathAto}"> </span>
                     <form th:action="@{/user/uploadDocx}">
                         <br>
-                        <button type="submit" class="btn btn-lg btn-secondary">Сторінка завантаження документа!</button>
+                        <button type="submit" class="btn btn-success">Сторінка завантаження документа!</button>
                     </form>
                 </div>
             </td>
@@ -62,10 +62,10 @@
                     <button type="submit" class="btn btn-lg btn-secondary">Створити звіт</button>
                 </form>
                 <div th:if="${fileAbsolutePathVpo}">
-                    <span th:text="'Файл знаходиться : ' + ${fileAbsolutePathVpo}"> </span>
+                    <span th:text="'Файл : ' + ${fileAbsolutePathVpo}"> </span>
                     <form th:action="@{/user/uploadDocx}">
                         <br>
-                        <button type="submit" class="btn btn-lg btn-secondary">Сторінка завантаження документа!</button>
+                        <button type="submit" class="btn btn-success">Сторінка завантаження документа!</button>
                     </form>
                 </div>
             </td>
