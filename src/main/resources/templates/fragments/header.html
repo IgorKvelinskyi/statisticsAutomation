@@ -19,11 +19,6 @@
                     <a class="nav-link" href="#" th:href="@{/login}" sec:authorize="isAnonymous()"
                        method="post">ВХІД<span class="sr-only">(current)</span></a>
                 </li>
-<!--                СТВОРИТИ ЗВІТ-->
-                <li class="nav-item active">
-                    <a class="nav-link" href="#" th:href="@{/user/saveWordDocumentPage}"
-                       sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">СТВОРИТИ ЗВІТ</a>
-                </li>
 <!--                Адміністрування-->
                 <li class="nav-item dropdown nav-item active" sec:authorize="hasAnyRole('ROLE_ADMIN')">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown"
@@ -45,6 +40,11 @@
                             Надання медичної допомоги з АР Крим</a>
                         <a class="dropdown-item text-white bg-dark" href="#">Something else here</a>
                     </div>
+                </li>
+                <!--                СТВОРИТИ ДОКУМЕНТ-->
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" th:href="@{/user/saveWordDocumentPage}"
+                       sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">СТВОРИТИ ДОКУМЕНТ</a>
                 </li>
             </ul>
             <span class="bg-info" sec:authorize="isAuthenticated()">Ласкаво просимо : <span

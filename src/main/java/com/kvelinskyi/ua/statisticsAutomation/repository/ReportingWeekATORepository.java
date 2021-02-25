@@ -13,4 +13,5 @@ public interface ReportingWeekATORepository extends CrudRepository<ReportingWeek
     ReportingWeekATO findByDateStartAndAndDateEnd(Date dateStart, Date dateEnd);
     List<ReportingWeekATO> findByDateStartBefore(Date dateEnd);
     List<ReportingWeekATO> findByOrderByDateStartAsc();
+    List<ReportingWeekATO> findByOrderByDateStartDesc();
 }

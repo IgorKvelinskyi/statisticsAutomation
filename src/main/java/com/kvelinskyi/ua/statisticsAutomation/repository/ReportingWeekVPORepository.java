@@ -13,4 +13,5 @@ public interface ReportingWeekVPORepository extends CrudRepository<ReportingWeek
     ReportingWeekVPO findByDateStartAndAndDateEnd(Date dateStart, Date dateEnd);
     List<ReportingWeekVPO> findByDateStartBefore(Date dateEnd);
     List<ReportingWeekVPO> findByOrderByDateStartAsc();
+    List<ReportingWeekVPO> findByOrderByDateStartDesc();
 }

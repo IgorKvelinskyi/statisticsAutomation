@@ -57,7 +57,7 @@ public class UserController {
     @RequestMapping(value = "/atoInfo")
     public ModelAndView doATOInfo() {
         ModelAndView mod = new ModelAndView();
-        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartDesc());
         mod.setViewName("user/atoInfo");
         return mod;
     }
@@ -80,7 +80,7 @@ public class UserController {
             mod.addObject("msg", "Такий звіт ( " +
                     FormatTheDate.timeIntervalATOConvert(reportingWeekATO) + " ) існуе");
         }
-        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartDesc());
         mod.setViewName("user/atoInfo");
         return mod;
     }
@@ -140,36 +140,13 @@ public class UserController {
         model.addAttribute("message", message);
         return "user/atoTable";
     }
-
-    @RequestMapping("/saveWordDocumentPage")
-    public ModelAndView doWordDocumentPage() {
-        ModelAndView mod = new ModelAndView();
-        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
-        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartAsc());
-        mod.setViewName("user/saveWordDocument");
-        return mod;
-    }
-
-    @RequestMapping("/deletingTemporaryFiles")
-    public ModelAndView doDeletingTemporaryFiles() {
-        ModelAndView mod = new ModelAndView();
-        try {
-            deletingTemporaryFiles.run("storage");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartAsc());
-        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
-        mod.setViewName("user/saveWordDocument");
-        return mod;
-    }
     //Table ATO End
 
     //Table VPO Start
-    @RequestMapping(value = "/vpoInfo")
+        @RequestMapping(value = "/vpoInfo")
     public ModelAndView doVPOInfo() {
         ModelAndView mod = new ModelAndView();
-        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartAsc());
+        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartDesc());
         mod.setViewName("user/vpoInfo");
         return mod;
     }
@@ -249,6 +226,29 @@ public class UserController {
     }
     //Table VPO End
 
+    @RequestMapping("/saveWordDocumentPage")
+    public ModelAndView doWordDocumentPage() {
+        ModelAndView mod = new ModelAndView();
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartDesc());
+        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartDesc());
+        mod.setViewName("user/saveWordDocument");
+        return mod;
+    }
+
+    @RequestMapping("/deletingTemporaryFiles")
+    public ModelAndView doDeletingTemporaryFiles() {
+        ModelAndView mod = new ModelAndView();
+        try {
+            deletingTemporaryFiles.run("storage");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartDesc());
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartDesc());
+        mod.setViewName("user/saveWordDocument");
+        return mod;
+    }
+
     //Save DOCX start
     @RequestMapping("/saveWordDocumentAto")
     public ModelAndView saveWordDocumentAto(@RequestParam("idReportingWeekAto") Long idReportingWeekAto) throws Docx4JException {
@@ -274,8 +274,8 @@ public class UserController {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartAsc());
-        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
+        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartDesc());
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartDesc());
         mod.addObject("fileAbsolutePathAto", fileDocx.getName());
         mod.setViewName("user/saveWordDocument");
         return mod;
@@ -306,8 +306,8 @@ public class UserController {
         } catch (Docx4JException e) {
             e.printStackTrace();
         }
-        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartAsc());
-        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
+        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartDesc());
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartDesc());
         mod.addObject("fileAbsolutePathVpo", fileDocx.getName());
         mod.setViewName("user/saveWordDocument");
         return mod;
@@ -315,8 +315,8 @@ public class UserController {
 
     private ModelAndView isIdReportingWeek(ModelAndView mod){
         mod.addObject("msg", "Виберіть період для звіта");
-        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartAsc());
-        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartAsc());
+        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartDesc());
+        mod.addObject("reportingWeekATOList", reportingWeekATORepository.findByOrderByDateStartDesc());
         mod.setViewName("user/saveWordDocument");
         return mod;
     }
