@@ -170,7 +170,7 @@ public class UserController {
                     FormatTheDate.timeIntervalVPOConvert(reportingWeekVPO) + " ) існуе");
         }
         mod.setViewName("user/vpoInfo");
-        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartAsc());
+        mod.addObject("reportingWeekVPOList", reportingWeekVPORepository.findByOrderByDateStartDesc());
         return mod;
     }
 
