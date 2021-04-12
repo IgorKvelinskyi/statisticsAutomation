@@ -18,7 +18,7 @@ public class XmlFileToDOCX {
     public File saveDocumentAtoToWord(String fileInputXML, String fileOutPutDOCX) throws IOException, JAXBException, Docx4JException {
         File xmlFile = new File(fileInputXML);
         //TODO create ENUM for (fileDOCXPath)
-        String filePath = "upload-dir\\" + fileOutPutDOCX;
+        String filePath = "upload-dir/" + fileOutPutDOCX;
         byte[] data;
         try (FileInputStream fis = new FileInputStream(xmlFile)) {
             data = new byte[(int) xmlFile.length()];
@@ -36,7 +36,8 @@ public class XmlFileToDOCX {
     public File saveDocumentVpoToWord(String fileInputXML, String fileOutPutDOCX) throws IOException, JAXBException, Docx4JException {
         File xmlFile = new File(fileInputXML);
         //TODO create ENUM for (fileDOCXPath)
-        String filePath = "upload-dir\\" + fileOutPutDOCX;
+        //TODO file path dir for docx
+        String filePath = "upload-dir/" + fileOutPutDOCX;
         byte[] data;
         try (FileInputStream fis = new FileInputStream(xmlFile)) {
             data = new byte[(int) xmlFile.length()];

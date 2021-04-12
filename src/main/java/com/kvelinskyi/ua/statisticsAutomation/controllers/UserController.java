@@ -264,7 +264,8 @@ public class UserController {
                 + "_КНП_Клінічна_лікарня_ПСИХІАТРІЯ.docx";
         File fileDocx = new File(nameFileDOCX);
         //TODO create ENUM (fileXmlPath)
-        String fileXmlPath = "xml-dir\\";
+        //TODO file path dir for xml
+        String fileXmlPath = "xml-dir/";
         try {
             fileDocx = xmlFileToDOCX.saveDocumentAtoToWord(domEditXML.changeDataAtoFileXML
                             (fileXmlPath + "formDOCXato.xml", fileXmlPath + "formDOCXatoOutput.xml", reportingWeekATO),
@@ -294,7 +295,8 @@ public class UserController {
         File fileDocx = new File(nameFileDOCX);
         XmlFileToDOCX xmlFileToDOCX = new XmlFileToDOCX();
         DomEditXML domEditXML = new DomEditXML();
-        String fileXmlPath = "xml-dir\\";
+        //TODO file path dir for xml vpo
+        String fileXmlPath = "xml-dir/";
         try {
             fileDocx = xmlFileToDOCX.saveDocumentVpoToWord(domEditXML.changeDataVpoFileXML
                             (fileXmlPath + "formDOCXVpo.xml", fileXmlPath + "formDOCXVpoOutput.xml", reportingWeekVPO),
